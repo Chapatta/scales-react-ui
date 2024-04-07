@@ -1,16 +1,63 @@
-import { useState } from 'react'
+import { useState,useRef, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
+const BASE_URL = "https://localhost:7148";
+
+interface Key {
+  notes: string;
+}
+
 function App() {
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const [count, setCount] = useState(0)
+  const [data, setData] = useState<Key[]>([])
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+
+    setIsLoading(true);
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/keys`, {
+                    signal: abortControllerRef.current?.signal,
+        });
+        const jsonData = await response.json() as Key[];
+        setData(jsonData);
+//        if (!response.ok) {
+//          throw new Error('Network response was not ok');
+//        }
+      } catch (e: any) {
+        if (e.name === "AbortError") {
+          console.log("Aborted");
+          return;
+        }
+
+        setError(e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <div>Something went wrong! Please try again.</div>;
+  }
 
   return (
     <>
       <select>
-        <option value="grapefruit">Grapefruit</option>
-        <option selected value="lime">Lime</option>
+        {data.map(item => (
+          <option value={item.notes}>{item.notes}</option>
+        ))}
       </select>
       <div>
         <a href="https://vitejs.dev" target="_blank">
