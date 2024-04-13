@@ -19,7 +19,7 @@
 import React, { useState } from 'react';
 // import KeysDropDown from './DataLayer/APICalls'
 
-import * as Keys from '../DataLayer/TestCalls';
+import * as DataLayer from '../DataLayer/Test/TestCalls';
 //import { Key } from '../DataLayer/TestCalls';
 // import { getKeys } from '../DataLayer/TestCalls';
 // import KeysDropDown from './DataLayer/TestCalls'
@@ -30,7 +30,7 @@ interface DropdownProps {
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
-  let keys = Keys.getKeys();
+  let keys = DataLayer.GetKeys();
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -43,8 +43,8 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
     <select id="Key-dropdown" value={selectedOption} onChange={handleOptionChange}>
       <option value="">Select an option</option>
       {keys.map((key, index) => (
-        <option key={index} value={key.notes}>
-          {key.notes}
+        <option key={index} value={key.KeyNotes}>
+          {key.KeyNotes}
         </option>
       ))}
     </select>

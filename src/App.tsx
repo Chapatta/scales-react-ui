@@ -1,12 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
 import './App.css'
 import KeysDropDown from './UI/KeysDropDown'
+import ScaleTypesDropDown from './UI/ScaleTypesDropDown'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
-  const [count, setCount] = useState(0)
+//  const [count, setCount] = useState(0)
 
   return (
     <>
@@ -41,7 +42,11 @@ function App() {
                 <td>
                     <table>
                         <tr>
-                            <td>Scale Type:</td><td className="VertSpacer"></td><td><select id="ScaleType-dropdown"></select></td>
+                            <td>Scale Type:</td><td className="VertSpacer"></td><td>
+                            <ScaleTypesDropDown
+                              onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
+                            />                              
+                            </td>
                         </tr>
                         <tr>
                             <td>Scales:</td><td></td><td><select id="Scales-dropdown"></select></td>
