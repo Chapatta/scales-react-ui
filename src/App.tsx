@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import KeysDropDown from './UI/KeysDropDown'
+// import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +12,15 @@ function App() {
     <>
 
       <div>
-        <KeysDropDown/>
+       <KeysDropDown
+          options={[
+            { label: 'Option 1', value: 'option1' },
+            { label: 'Option 2', value: 'option2' },
+            { label: 'Option 3', value: 'option3' }
+          ]}
+          onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
+        />
+
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -19,7 +28,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      {/* <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -30,7 +39,7 @@ function App() {
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
-      </p>
+      </p> */}
     </>
   )
 }
