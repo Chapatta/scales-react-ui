@@ -1,13 +1,16 @@
-// import { useState } from 'react'
+import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import './App.css'
 import KeysDropDown from './UI/KeysDropDown'
 import ScaleTypesDropDown from './UI/ScaleTypesDropDown'
+import ScalesDropDown from './UI/ScalesDropDown'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
 //  const [count, setCount] = useState(0)
+const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
+const [scaleScaleTypeDropdownValue, setScaleScaleTypeDropdownValue] = useState('');
 
   return (
     <>
@@ -44,12 +47,17 @@ function App() {
                         <tr>
                             <td>Scale Type:</td><td className="VertSpacer"></td><td>
                             <ScaleTypesDropDown
-                              onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
+                              onSelect={(selectedValue) => {console.log('Selected value:', selectedValue), setScaleTypeDropdownValue(parseInt(selectedValue,10))}}
                             />                              
                             </td>
                         </tr>
                         <tr>
-                            <td>Scales:</td><td></td><td><select id="Scales-dropdown"></select></td>
+                            <td>Scales:</td><td></td><td>
+                              <ScalesDropDown
+                                scaleType = {scaleTypeDropdownValue}
+                                onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
+                              />   
+                            </td>
                         </tr>
                         <tr>
                             <td>Scale Name:</td><td></td><td><label id="ScaleName-label"></label></td>

@@ -42,7 +42,7 @@ interface DropdownProps {
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
-  let scaleTypes = DataLayer.GetScaleTypes();
+  const scaleTypes = DataLayer.GetScaleTypes();
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -54,8 +54,8 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
   return (
     <select id="ScaleType-dropdown" value={selectedOption} onChange={handleOptionChange}>
       <option value="">Select an option</option>
-      {scaleTypes.map((scaleType) => (
-        <option key={scaleType.ID} value={scaleType.Name}>
+      {scaleTypes.map((scaleType,index) => (
+        <option key={index} value={scaleType.ID}>
           {scaleType.Name}
         </option>
       ))}
