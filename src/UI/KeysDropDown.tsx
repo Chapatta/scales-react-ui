@@ -17,18 +17,20 @@
 // />
 
 import React, { useState } from 'react';
+// import KeysDropDown from './DataLayer/APICalls'
 
-interface Option {
-  label: string;
-  value: string;
-}
+import * as Keys from '../DataLayer/TestCalls';
+//import { Key } from '../DataLayer/TestCalls';
+// import { getKeys } from '../DataLayer/TestCalls';
+// import KeysDropDown from './DataLayer/TestCalls'
 
 interface DropdownProps {
-  options: Option[];
+  //keys: Keys.Key[];
   onSelect: (value: string) => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ options, onSelect }) => {
+const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
+  let keys = Keys.getKeys();
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,9 +42,9 @@ const Dropdown: React.FC<DropdownProps> = ({ options, onSelect }) => {
   return (
     <select value={selectedOption} onChange={handleOptionChange}>
       <option value="">Select an option</option>
-      {options.map((option, index) => (
-        <option key={index} value={option.value}>
-          {option.label}
+      {keys.map((key, index) => (
+        <option key={index} value={key.notes}>
+          {key.notes}
         </option>
       ))}
     </select>
