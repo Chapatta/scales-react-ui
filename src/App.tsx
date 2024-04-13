@@ -10,18 +10,88 @@ function App() {
 
   return (
     <>
-
+      <h1>Violin Scales</h1>
       <div>
-       <KeysDropDown
-          onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
-        />
+        <table>
+            <tr>
+                <td>
+                    <table id="Key">
+                        <tr>
+                            <td>Key:</td><td className="VertSpacer"></td><td>
+                            <KeysDropDown
+                              onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
+                            />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td></td><td></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td><td></td><td></td>
+                        </tr>                                    
+                    </table>
+                </td>
+                <td className="VertSpacer" />
+                <td>
+                    <table>
+                        <tr>
+                            <td>Scale Type:</td><td className="VertSpacer"></td><td><select id="ScaleType-dropdown"></select></td>
+                        </tr>
+                        <tr>
+                            <td>Scales:</td><td></td><td><select id="Scales-dropdown"></select></td>
+                        </tr>
+                        <tr>
+                            <td>Scale Name:</td><td></td><td><label id="ScaleName-label"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Key Signature:</td><td></td><td><label id="KeySignature-label"></label></td>
+                        </tr>
+                        <tr>
+                            <td>Notes:</td><td></td><td><label id="Notes-label"></label></td>
+                        </tr>                                    
+                    </table>
+                </td>
+            </tr>
+        </table>
 
-        <a href="https://vitejs.dev" target="_blank">
+        <table>
+            <tr>
+                <td>Lock Violin<input type="checkbox" id="LockViolin"/></td>
+                <td><button id="Export-button">Export</button></td>
+                <td><button id="CopyAsc-button">Copy Ascending</button></td>
+            </tr>
+        </table>
+
+        <table id="Violin">
+        <tr id="Violin-Asc"><td>Asc</td></tr>
+
+        <tr className="position"><td rowSpan={3}>E</td></tr><tr className="finger"></tr><tr className="note"></tr>
+        <tr className="position"><td rowSpan={3}>A</td></tr><tr className="finger"></tr><tr className="note"></tr>
+        <tr className="position"><td rowSpan={3}>D</td></tr><tr className="finger"></tr><tr className="note"></tr>
+        <tr className="position"><td rowSpan={3}>G</td></tr><tr className="finger"></tr><tr className="note"></tr>
+
+        <tr id="ViolinSpacer"></tr>
+
+        <tr id="Violin-Desc"><td>Desc</td></tr>
+
+        <tr className="position"><td rowSpan={3}>E</td></tr><tr className="finger"></tr><tr className="note"></tr>
+        <tr className="position"><td rowSpan={3}>A</td></tr><tr className="finger"></tr><tr className="note"></tr>
+        <tr className="position"><td rowSpan={3}>D</td></tr><tr className="finger"></tr><tr className="note"></tr>
+        <tr className="position"><td rowSpan={3}>G</td></tr><tr className="finger"></tr><tr className="note"></tr>
+
+    </table>
+        {/* <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        </a> */}
       </div>
       {/* <h1>Vite + React</h1>
       <div className="card">

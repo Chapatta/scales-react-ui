@@ -40,7 +40,7 @@ const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
   };
 
   return (
-    <select value={selectedOption} onChange={handleOptionChange}>
+    <select id="Key-dropdown" value={selectedOption} onChange={handleOptionChange}>
       <option value="">Select an option</option>
       {keys.map((key, index) => (
         <option key={index} value={key.notes}>
