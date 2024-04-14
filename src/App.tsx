@@ -73,8 +73,8 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
                             </td>
                         </tr>
                         <tr>
-                          <Label id="ScaleName-label" caption = "Scale Name" text={scaleDropdownText}></Label>
-                            {/* <td>Scale Name:</td><td></td><td><label id="ScaleName-label"></label></td> */}
+                          <td>Scale Name:</td><td></td>
+                          <Label id="ScaleName-label" text={scaleDropdownText}></Label>
                         </tr>
                         <tr>
                             <td>Key Signature:</td><td></td><td><label id="KeySignature-label"></label></td>

@@ -1,14 +1,11 @@
 interface LabelProps {
     id: string,
-    caption: string,
     text: string
 }
 
-const Label: React.FC<LabelProps> = ({ id,caption,text}) => {
+const Label: React.FC<LabelProps> = ({ id,text}) => {
   return (
-    <div>
-        <td>{caption}:</td><td></td><td><label id={id}>{text}</label></td>
-    </div>
+    <td><label id={id}>{text}</label></td>
   );
 };
 
