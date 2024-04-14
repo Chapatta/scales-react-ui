@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import * as DataLayer from '../DataLayer/Test/TestCalls';
+import ViolinFret from './ViolinFret'
 
 interface ViolinProps {
   //keys: Keys.Key[];
@@ -9,33 +10,59 @@ interface ViolinProps {
 }
 
 const Violin: React.FC<ViolinProps> = ({ scaleID }) => {
-  const scale = DataLayer.GetScale(scaleID);
-//   const [selectedOption, setSelectedOption] = useState<string>('');
+  const maxFret = DataLayer.GetMaxFret();
+  const violinFrets = [];
 
-//   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-//     const selectedValue = e.target.value;
-//     setSelectedOption(selectedValue);
-//     onSelect(selectedValue);
-//   };
+  for (let i = 0; i < maxFret; i++) {
+    // itemElements.push(<li key={i}>{items[i]}</li>);
+    violinFrets.push(<ViolinFret position={0} finger={0} note="E" />);
+  }
 
   return (
-    <table id="Violin">
-        <tr id="Violin-Asc"><td>Asc</td></tr>
+    <div id="Violin">
+        <div id="Violin-Asc">Asc</div>
+        <div className="row">
+            <div id="StringHeader">E</div>
+            {violinFrets}
+        </div>
 
-        <tr className="position"><td rowSpan={3}>E</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>A</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>D</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>G</td></tr><tr className="finger"></tr><tr className="note"></tr>
+        <div className="row">
+            <div id="StringHeader">A</div>
+            {violinFrets}
+        </div>
 
-        <tr id="ViolinSpacer"></tr>
+        <div className="row">
+            <div id="StringHeader">D</div>
+            {violinFrets}
+        </div>
 
-        <tr id="Violin-Desc"><td>Desc</td></tr>
+        <div className="row">
+            <div id="StringHeader">G</div>
+            {violinFrets}
+        </div>
 
-        <tr className="position"><td rowSpan={3}>E</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>A</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>D</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>G</td></tr><tr className="finger"></tr><tr className="note"></tr>
-    </table>
+        <div id="ViolinSpacer"/>
+    
+        <div id="Violin-Desc">Desc</div>
+        <div className="row">
+            <div id="StringHeader">E</div>
+            {violinFrets}
+        </div>
+
+        <div className="row">
+            <div id="StringHeader">A</div>
+            {violinFrets}
+        </div>
+        <div className="row">
+            <div id="StringHeader">D</div>
+            {violinFrets}
+        </div>
+
+        <div className="row">
+            <div id="StringHeader">G</div>
+            {violinFrets}
+        </div>
+    </div>
   );
 };
 
