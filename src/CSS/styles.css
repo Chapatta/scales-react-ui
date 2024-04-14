@@ -1,0 +1,83 @@
+body {
+    background-color: powderblue;
+}
+
+h1 {
+    text-align: center;
+    color: blue;
+}
+
+p {
+color: red;
+}
+/* #Violin{
+table-layout: fixed;
+width: 100%;
+} */
+
+table {
+border-collapse: collapse;
+margin-left: auto;  
+margin-right: auto;  
+}
+
+#Violin td {
+    border-spacing: 0px;
+    border-collapse: separate;
+    border: 1px solid black;
+
+    height: 20px;
+    width: 40px;
+
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cellEdit {
+    height: 18px;
+    width: 36px;
+    border: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+#ViolinSpacer td {
+    border: 0px;
+    height: 30px;
+}
+
+.VertSpacer {
+    width: 30px;
+}
+
+/* .position td{
+    color: rgb(0, 255, 85);
+} */
+
+.finger td{
+    color: rgb(0, 60, 255);
+}
+
+.note td{
+    color: red;
+}
+
+#editSafety
+{
+    display: none;
+}
+
+#Export-Div
+{
+  width: 700px;
+  height: 700px;
+}
+
+#Export-table
+{
+  /* flex: 1; */
+  width: 100%;
+  height: 100%;
+}
+

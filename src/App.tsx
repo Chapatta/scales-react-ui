@@ -2,10 +2,12 @@ import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 import './App.css'
+// import './CSS/styles.css'
 import KeysDropDown from './UI/KeysDropDown'
 import ScaleTypesDropDown from './UI/ScaleTypesDropDown'
 import ScalesDropDown from './UI/ScalesDropDown'
 import Label from './UI/Label'
+import Violin from './UI/Violin'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
@@ -77,10 +79,12 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
                           <Label id="ScaleName-label" text={scaleDropdownText}></Label>
                         </tr>
                         <tr>
-                            <td>Key Signature:</td><td></td><td><label id="KeySignature-label"></label></td>
+                          <td>Key Signature:</td><td></td><td>
+                          <label id="KeySignature-label"></label></td>
                         </tr>
                         <tr>
-                            <td>Notes:</td><td></td><td><label id="Notes-label"></label></td>
+                          <td>Notes:</td><td></td>
+                          <td><label id="Notes-label"></label></td>
                         </tr>                                    
                     </table>
                 </td>
@@ -95,24 +99,8 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
             </tr>
         </table>
 
-        <table id="Violin">
-        <tr id="Violin-Asc"><td>Asc</td></tr>
+        <Violin scaleID={0} />
 
-        <tr className="position"><td rowSpan={3}>E</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>A</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>D</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>G</td></tr><tr className="finger"></tr><tr className="note"></tr>
-
-        <tr id="ViolinSpacer"></tr>
-
-        <tr id="Violin-Desc"><td>Desc</td></tr>
-
-        <tr className="position"><td rowSpan={3}>E</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>A</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>D</td></tr><tr className="finger"></tr><tr className="note"></tr>
-        <tr className="position"><td rowSpan={3}>G</td></tr><tr className="finger"></tr><tr className="note"></tr>
-
-    </table>
         {/* <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
