@@ -49,7 +49,8 @@ enum ScaleType {
 interface Scale { ID: number; Scale: number; ScaleType: number; Octaves: number; StartingNote: string; Name: string; Notes: string; KeyNotes: string; }
 interface DropdownProps {
   scaleType: number;
-  onSelect: (value: string) => void;
+  // onSelect: (value: string) => void;
+  onSelect:(event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 /*
@@ -62,7 +63,7 @@ const Dropdown: React.FC<DropdownProps> = (props) => {
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
-    props.onSelect(selectedValue);
+    props.onSelect(e);
   };
 
   return (

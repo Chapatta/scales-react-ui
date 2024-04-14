@@ -5,12 +5,23 @@ import './App.css'
 import KeysDropDown from './UI/KeysDropDown'
 import ScaleTypesDropDown from './UI/ScaleTypesDropDown'
 import ScalesDropDown from './UI/ScalesDropDown'
+import Label from './UI/Label'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
 //  const [count, setCount] = useState(0)
 const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
-const [scaleScaleTypeDropdownValue, setScaleScaleTypeDropdownValue] = useState('');
+const [scaleDropdownValue, setScaleDropdownValue] = useState(0);
+const [scaleDropdownText, setScaleDropdownText] = useState('');
+
+const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectedOption = event.target.value;
+  setScaleDropdownValue(parseInt(selectedOption));
+
+  // Find the selected option element and extract its text
+  const selectedOptionText = event.target.selectedOptions[0].text;
+  setScaleDropdownText(selectedOptionText);
+};
 
   return (
     <>
@@ -55,12 +66,15 @@ const [scaleScaleTypeDropdownValue, setScaleScaleTypeDropdownValue] = useState('
                             <td>Scales:</td><td></td><td>
                               <ScalesDropDown
                                 scaleType = {scaleTypeDropdownValue}
-                                onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
+                                // onSelect={(selectedValue) => {console.log('Selected value:', selectedValue); setScaleDropdownValue;}}
+                                onSelect={handleScaleDropdownChange}
+                                
                               />   
                             </td>
                         </tr>
                         <tr>
-                            <td>Scale Name:</td><td></td><td><label id="ScaleName-label"></label></td>
+                          <Label id="ScaleName-label" caption = "Scale Name" text={scaleDropdownText}></Label>
+                            {/* <td>Scale Name:</td><td></td><td><label id="ScaleName-label"></label></td> */}
                         </tr>
                         <tr>
                             <td>Key Signature:</td><td></td><td><label id="KeySignature-label"></label></td>
