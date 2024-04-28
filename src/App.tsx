@@ -16,6 +16,23 @@ const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
 const [scaleDropdownValue, setScaleDropdownValue] = useState(0);
 const [scaleDropdownText, setScaleDropdownText] = useState('');
 
+  // const [cellData, setCellData] = useState(
+  //   Array.from({ length: rows }, () => Array(columns).fill(''))
+  // );
+
+  const initialData = [
+    ["John Doe", 28, "Engineer"],
+    ["Jane Smith", 34, "Designer"],
+    ["Bob Johnson", 45, "Manager"],
+  ];
+
+  const [tableData, setTableData] = useState(initialData);
+
+  // const [cellData, setCellData] = useState(
+  //   Array.from({ length: rows }, () => Array(columns).fill(''))
+  // );
+
+
 const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   const selectedOption = event.target.value;
   setScaleDropdownValue(parseInt(selectedOption));
@@ -23,6 +40,16 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
   // Find the selected option element and extract its text
   const selectedOptionText = event.target.selectedOptions[0].text;
   setScaleDropdownText(selectedOptionText);
+};
+
+const updateCell = (rowIndex, colIndex, newValue) => {
+  setTableData((prevData) =>
+    prevData.map((row, rIdx) =>
+      rIdx === rowIndex
+        ? row.map((cell, cIdx) => (cIdx === colIndex ? newValue : cell))
+        : row
+    )
+  );
 };
 
   return (
@@ -98,8 +125,24 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
                 <td><button id="CopyAsc-button">Copy Ascending</button></td>
             </tr>
         </table>
+{/* The table is rendered using nested map functions. The outer map iterates over the rows, and the inner map iterates over the cells in each row. */}
+<table>
+        {tableData.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((cell, colIndex) => (
+              <td key={colIndex}>
+                <input
+                  type={colIndex === 1 ? "number" : "text"}
+                  value={cell}
+                  // onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)}
+                />
+              </td>
+            ))}
+          </tr>
+        ))}
+</table>
 
-        <Violin scaleID={0} />
+        {/* <Violin scaleID={0} /> */}
 
         {/* <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
