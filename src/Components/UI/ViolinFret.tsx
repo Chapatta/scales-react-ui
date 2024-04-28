@@ -1,22 +1,21 @@
+import Fret from '../../Classes/Fret'; // Import the default export
+
 interface ViolinFretProps {
-  //keys: Keys.Key[];
-  position: number,
-  finger: number,
-  note: string
+  fret: Fret
 //   onSelect: (value: string) => void;
 }
 
-const ViolinFret: React.FC<ViolinFretProps> = ({ position,finger,note }) => {
+const ViolinFret: React.FC<ViolinFretProps> = ({ fret }) => {
   return (
     <div>
         <div className="position">
-            {position}
+            {fret.position}
         </div>
         <div className="finger">
-            {finger}
+            {fret.finger}
         </div>
         <div className="note">
-            {note}
+            {fret.note}
         </div>
     </div>
   );
