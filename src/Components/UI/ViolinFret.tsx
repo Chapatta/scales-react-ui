@@ -5,8 +5,7 @@ interface ViolinFretProps {
 //   onSelect: (value: string) => void;
 }
 
-const ViolinFret: React.FC<ViolinFretProps> = ({ fret }) => {
-  return (
+const ViolinFret = ({fret}: ViolinFretProps) => (
     <div>
         <div className="position">
             {fret.position}
@@ -19,6 +18,5 @@ const ViolinFret: React.FC<ViolinFretProps> = ({ fret }) => {
         </div>
     </div>
   );
-};
 
 export default ViolinFret;
