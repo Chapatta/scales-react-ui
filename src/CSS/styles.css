@@ -81,3 +81,8 @@ margin-right: auto;
   height: 100%;
 }
 
+.container {
+    display: grid; /* Grid layout */
+    grid-template-columns: repeat(2, 1fr); /* 3 columns of equal width */
+    gap: 10px; /* Space between grid items */
+}

@@ -34,16 +34,40 @@ const [scaleDropdownText, setScaleDropdownText] = useState('');
 }
 */
   const initialViolinData = [
-    {
-      position: 0,
-      finger: 0,
-      note: 'G'
-    },
-    {
-      position: 0,
-      finger: 1,
-      note: 'D'
-    }
+    [
+      {
+        position: 0,
+        finger: 0,
+        note: 'D'
+      },
+      {
+        position: 1,
+        finger: 1,
+        note: 'D1'
+      },
+      {
+        position: 2,
+        finger: 2,
+        note: 'D2'
+      }
+    ],
+    [
+      {
+        position: 0,
+        finger: 0,
+        note: 'G'
+      },
+      {
+        position: 1,
+        finger: 1,
+        note: 'G1'
+      },
+      {
+        position: 2,
+        finger: 2,
+        note: 'G2'
+      }
+    ]
   ];
 
   const [tableData, setTableData] = useState(initialData);
@@ -165,25 +189,20 @@ const updateCell = (rowIndex, colIndex, newValue) => {
 
 <div>
   {violinData.map((row, rowIndex) => (
-          <div key={rowIndex}>
-            <div>
-              {row.finger}
-            </div>
-            <div>
-              {row.position}
-            </div>
-            <div>
-              {row.note}
-            </div>
-            {/* {row.map((cell, colIndex) => (
-              <td key={colIndex}>
-                <input
-                  type={colIndex === 1 ? "number" : "text"}
-                  value={cell}
-                  // onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)}
-                />
-              </td>
-            ))} */}
+          <div key={rowIndex} className="container">
+            {row.map((cell, colIndex) => (
+            <div key={colIndex}>
+              <div>
+                {cell.finger}
+              </div>
+              <div>
+                {cell.position}
+              </div>
+              <div>
+                {cell.note}
+              </div>
+              </div>
+            ))}
           </div>
         ))}
 </div>

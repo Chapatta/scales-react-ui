@@ -56,3 +56,9 @@
   text-align: center;
   vertical-align: middle;
 }
+
+.container {
+  display: grid; /* Grid layout */
+  grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
+  gap: 10px; /* Space between grid items */
+}
