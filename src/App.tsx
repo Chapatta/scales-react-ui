@@ -26,7 +26,28 @@ const [scaleDropdownText, setScaleDropdownText] = useState('');
     ["Bob Johnson", 45, "Manager"],
   ];
 
+  /*
+  {
+    position: number;
+    finger: number;
+    note: string;
+}
+*/
+  const initialViolinData = [
+    {
+      position: 0,
+      finger: 0,
+      note: 'G'
+    },
+    {
+      position: 0,
+      finger: 1,
+      note: 'D'
+    }
+  ];
+
   const [tableData, setTableData] = useState(initialData);
+  const [violinData, setViolinData] = useState(initialViolinData);
 
   // const [cellData, setCellData] = useState(
   //   Array.from({ length: rows }, () => Array(columns).fill(''))
@@ -141,6 +162,31 @@ const updateCell = (rowIndex, colIndex, newValue) => {
           </tr>
         ))}
 </table>
+
+<div>
+  {violinData.map((row, rowIndex) => (
+          <div key={rowIndex}>
+            <div>
+              {row.finger}
+            </div>
+            <div>
+              {row.position}
+            </div>
+            <div>
+              {row.note}
+            </div>
+            {/* {row.map((cell, colIndex) => (
+              <td key={colIndex}>
+                <input
+                  type={colIndex === 1 ? "number" : "text"}
+                  value={cell}
+                  // onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)}
+                />
+              </td>
+            ))} */}
+          </div>
+        ))}
+</div>
 
         {/* <Violin scaleID={0} /> */}
 
