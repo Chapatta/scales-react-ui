@@ -7,10 +7,10 @@ import KeysDropDown from './Components/UI/KeysDropDown'
 import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
 import ScalesDropDown from './Components/UI/ScalesDropDown'
 import Label from './Components/UI/Label'
-import Violin from './Components/UI/Violin'
+import ViolinNeck from './Components/UI/ViolinNeck'
 //import { GetFingerPositions } from './DataLayer/Test/TestCalls'
 import * as DAL from './DataLayer/Test/TestCalls'
-import * as IFingerPos from '../Interfaces/IFingerPositions'
+//import * as IFingerPos from './Datalayer/Interfaces/IFingerPositions'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
@@ -23,7 +23,9 @@ const [scaleDropdownText, setScaleDropdownText] = useState('');
   //   Array.from({ length: rows }, () => Array(columns).fill(''))
   // );
 
-  const [violinData, setViolinData] = useState<IFingerPos[][]>([]);
+  // const [violinData, setViolinData] = useState<IFingerPos[][]>([]);
+  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos[][]>([]);
+  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos[][]>([]);
 
   // const [cellData, setCellData] = useState(
   //   Array.from({ length: rows }, () => Array(columns).fill(''))
@@ -43,16 +45,23 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
   const selectedOptionText = event.target.selectedOptions[0].text;
   setScaleDropdownText(selectedOptionText);
 
-  const initialViolinData = getScale(scaleID,currentScale.Octaves);
+  const fingerPositions = DAL.GetFingerPositions(scaleID,currentScale.Octaves);
 
-  displayViolinData(initialViolinData);
+  const fingerPositionsAsc = fingerPositions.filter(fingerPos => fingerPos.Direction = "Asc");
+  const fingerPositionsDesc = fingerPositions.filter(fingerPos => fingerPos.Direction = "Desc")
 
-  setViolinData(initialViolinData)
+  const violinDataAsc : IFingerPos[][] = getScale(fingerPositionsAsc);
+  const violinDataDesc : IFingerPos[][]= getScale(fingerPositionsDesc);
+
+  // displayViolinData(initialViolinData);
+
+  setViolinDataAsc(violinDataAsc)
+  setViolinDataDesc(violinDataDesc)
 };
 
-const getScale = (scaleID: number,octaves: number) =>
+const getScale = (fingerPositions: IFingerPos.IFingerPositionSource[]) : IFingerPos[][] =>
 {
-  const rows = 8;
+  const rows = 4;
   const columns = 18;
 
   // Initialize the 2D array with a default object in each cell
@@ -65,21 +74,12 @@ const getScale = (scaleID: number,octaves: number) =>
     Note: null
       }))
     );
-  console.log(`scaleID ${scaleID} octaves ${octaves}`);
     
-  if (scaleID != 0)
-  {
-    // 18
-    const fingerPositions = DAL.GetFingerPositions(scaleID,octaves);
-    //String":"E","Fret":6,"Direction":"Asc",
-    //console.log(`fingerPositions ${fingerPositions}`);
-
     fingerPositions.forEach((fingerPosition) => {
       updateCell(twoDimArray,fingerPosition)
       //console.log(`Index ${index}: ${value}`);
     });
-  }
-//  displayViolinData(twoDimArray);
+  //  displayViolinData(twoDimArray);
   return twoDimArray;
 }
 
@@ -117,28 +117,24 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
   let stringIndex = 0; 
   switch (fingerPosition.String) {
     case "E":
-      stringIndex = 4;
+      stringIndex = 0;
       //console.log("Start of the work week!");
       break;
     case "A":
-      stringIndex = 5;
+      stringIndex = 1;
       //console.log("Start of the work week!");
       break;
     case "D":
-      stringIndex = 6;
+      stringIndex = 2;
       //console.log("Start of the work week!");
       break;
     case "G":
-      stringIndex = 7;
+      stringIndex = 3;
     //console.log("Start of the work week!");
       break;
     default:
       console.log("Invalid String.");
       break;
-  }
-  if (fingerPosition.Direction == 'Asc') 
-  {
-    stringIndex = stringIndex - 4;
   }
   return stringIndex;
 }
@@ -217,47 +213,13 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
             </tr>
         </table>
 <div id="Violin">
-  {violinData.map((row, rowIndex) => (
-          <div key={rowIndex} className="container">
-            {row.map((cell, colIndex) => (
-            <div key={colIndex}>
-              <div className="position finger">
-                {/* onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)} */}
-                {cell.Finger ? cell.Finger : "\u00a0"} 
-              </div>
-              <div className="position">
-                {cell.Position ? cell.Position : "\u00a0"} 
-              </div>
-              <div className="position note">
-                {cell.Note ? cell.Note : "\u00a0"} 
-              </div>
-              </div>
-            ))}
-          </div>
-        ))}
+    <ViolinNeck violinData={violinDataAsc} />
+    <ViolinNeck violinData={violinDataDesc} />
 </div>
 
-        {/* <Violin scaleID={0} /> */}
 
-        {/* <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a> */}
       </div>
-      {/* <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
+
     </>
   )
 }
