@@ -7,7 +7,7 @@ interface ViolinNeckProps {
 
 const ViolinNeck = ({violinData}: ViolinNeckProps) => (
     violinData.map((row, rowIndex) => (
-        <div key={rowIndex} className="container">
+        <div key={rowIndex} className="ViolinNeck">
           {row.map((cell, colIndex) => (
           <div key={colIndex}>
             <div className="position finger">

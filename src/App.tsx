@@ -142,7 +142,6 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
   return (
     <>
       <h1>Violin Scales</h1>
-      <div>
         <table>
             <tr>
                 <td>
@@ -204,7 +203,43 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
                 </td>
             </tr>
         </table>
-
+  <div className="scaleSelector">
+    <div className="stackVertical">
+      <div className='tableRow'>
+        <div>Key:</div>
+        <div className="VertSpacer"></div>
+        <div><KeysDropDown onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}></KeysDropDown></div>
+      </div>
+      <div className='tableRow'>
+        <div>Scale Type:</div>
+        <div className="VertSpacer"></div>
+        <div><ScaleTypesDropDown onSelect={(selectedValue) => {console.log('Selected value:', selectedValue), setScaleTypeDropdownValue(parseInt(selectedValue,10))}}></ScaleTypesDropDown></div>
+      </div>
+    </div>
+    <div className="stackVertical">
+      <div className='tableRow'>
+        <div>Scales:</div>
+        <div className="VertSpacer"></div>
+        <div><ScalesDropDown scaleType = {scaleTypeDropdownValue} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
+        {/* onSelect={(selectedValue) => {console.log('Selected value:', selectedValue); setScaleDropdownValue;}} */}
+      </div>
+      <div className='tableRow'>
+        <div>Scale Name:</div>
+        <div className="VertSpacer"></div>
+        <div id="ScaleName-label">{scaleDropdownText}</div>
+      </div>
+      <div className='tableRow'>
+        <div>Key Signature:</div>
+        <div className="VertSpacer"></div>
+        <div id="KeySignature-label"></div>
+      </div>
+      <div className='tableRow'>
+        <div>Notes:</div>
+        <div className="VertSpacer"></div>
+        <div id="Notes-label"></div>
+      </div>
+    </div>
+  </div>
         <table>
             <tr>
                 <td>Lock Violin<input type="checkbox" id="LockViolin"/></td>
@@ -217,9 +252,6 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
     <div id ="ViolinSpacer"></div>
     <ViolinNeck violinData={violinDataDesc} />
 </div>
-
-
-      </div>
 
     </>
   )

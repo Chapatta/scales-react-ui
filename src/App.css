@@ -59,9 +59,15 @@
   vertical-align: middle;
 }
 
-.container {
+.ViolinNeck {
   display: grid; /* Grid layout */
   grid-template-columns: repeat(18, 1fr); /* 3 columns of equal width */
+  gap: 10px; /* Space between grid items */
+}
+
+.scaleSelector {
+  display: grid; /* Grid layout */
+  grid-template-columns: repeat(2, 1fr); /* 3 columns of equal width */
   gap: 10px; /* Space between grid items */
 }
 
@@ -76,4 +82,20 @@
 #ViolinSpacer {
   border: 0px;
   height: 30px;
+}
+
+.tableRow {
+  display: inline-flex;
+}
+
+.VertSpacer {
+  width: 30px;
+}
+
+.stackVertical {
+  display: grid; /* Using grid layout */
+  grid-auto-flow: row; /* Stacked vertically */
+  gap: 10px; /* Optional: space between divs */
+  padding: 10px;
+  border: 1px solid #000;
 }
