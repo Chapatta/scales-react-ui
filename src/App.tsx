@@ -142,67 +142,6 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
   return (
     <>
       <h1>Violin Scales</h1>
-        <table>
-            <tr>
-                <td>
-                    <table id="Key">
-                        <tr>
-                            <td>Key:</td><td className="VertSpacer"></td><td>
-                            <KeysDropDown
-                              onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}
-                            />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td><td></td><td></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td><td></td><td></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td><td></td><td></td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td><td></td><td></td>
-                        </tr>                                    
-                    </table>
-                </td>
-                <td className="VertSpacer" />
-                <td>
-                    <table>
-                        <tr>
-                            <td>Scale Type:</td><td className="VertSpacer"></td><td>
-                            <ScaleTypesDropDown
-                              onSelect={(selectedValue) => {console.log('Selected value:', selectedValue), setScaleTypeDropdownValue(parseInt(selectedValue,10))}}
-                            />                              
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Scales:</td><td></td><td>
-                              <ScalesDropDown
-                                scaleType = {scaleTypeDropdownValue}
-                                // onSelect={(selectedValue) => {console.log('Selected value:', selectedValue); setScaleDropdownValue;}}
-                                onSelect={handleScaleDropdownChange}
-                                
-                              />   
-                            </td>
-                        </tr>
-                        <tr>
-                          <td>Scale Name:</td><td></td>
-                          <Label id="ScaleName-label" text={scaleDropdownText}></Label>
-                        </tr>
-                        <tr>
-                          <td>Key Signature:</td><td></td><td>
-                          <label id="KeySignature-label"></label></td>
-                        </tr>
-                        <tr>
-                          <td>Notes:</td><td></td>
-                          <td><label id="Notes-label"></label></td>
-                        </tr>                                    
-                    </table>
-                </td>
-            </tr>
-        </table>
   <div className="scaleSelector">
     <div className="stackVertical">
       <div className='tableRow'>
