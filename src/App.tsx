@@ -111,9 +111,9 @@ const getScale = (scaleID: number,octaves: number) =>
   Array.from({ length: columns }, (_, colIndex) => ({
     String: rowIndex,
     Fret: colIndex,
-    Position: '',
-    Finger: -1,
-    Note: ''
+    Position: null,
+    Finger: null,
+    Note: null
       }))
     );
   console.log(`scaleID ${scaleID} octaves ${octaves}`);
@@ -304,13 +304,13 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
             {row.map((cell, colIndex) => (
             <div key={colIndex}>
               <div>
-                {cell.Finger}
+                {cell.Finger ? cell.Finger : "\u00a0"} 
               </div>
               <div>
-                {cell.Position}
+                {cell.Position ? cell.Position : "\u00a0"} 
               </div>
               <div>
-                {cell.Note}
+                {cell.Note ? cell.Note : "\u00a0"} 
               </div>
               </div>
             ))}
