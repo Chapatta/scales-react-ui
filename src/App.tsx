@@ -23,57 +23,6 @@ const [scaleDropdownText, setScaleDropdownText] = useState('');
   //   Array.from({ length: rows }, () => Array(columns).fill(''))
   // );
 
-  const initialData = [
-    ["John Doe", 28, "Engineer"],
-    ["Jane Smith", 34, "Designer"],
-    ["Bob Johnson", 45, "Manager"],
-  ];
-
-  /*
-  {
-    position: number;
-    finger: number;
-    note: string;
-}
-*/
-  const initialViolinData = [
-    [
-      {
-        position: 0,
-        finger: 0,
-        note: 'D'
-      },
-      {
-        position: 1,
-        finger: 1,
-        note: 'D1'
-      },
-      {
-        position: 2,
-        finger: 2,
-        note: 'D2'
-      }
-    ],
-    [
-      {
-        position: 0,
-        finger: 0,
-        note: 'G'
-      },
-      {
-        position: 1,
-        finger: 1,
-        note: 'G1'
-      },
-      {
-        position: 2,
-        finger: 2,
-        note: 'G2'
-      }
-    ]
-  ];
-
-  const [tableData, setTableData] = useState(initialData);
   const [violinData, setViolinData] = useState<IFingerPos[][]>([]);
 
   // const [cellData, setCellData] = useState(
@@ -194,20 +143,6 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
   return ascIndex;
 }
 
-
-//        ? row.map((cell, cIdx) => (cIdx === colIndex ? newValue : cell))
-
-
-// const updateCell = (rowIndex, colIndex, newValue) => {
-//   setTableData((prevData) =>
-//     prevData.map((row, rIdx) =>
-//       rIdx === rowIndex
-//         ? row.map((cell, cIdx) => (cIdx === colIndex ? newValue : cell))
-//         : row
-//     )
-//   );
-// };
-
   return (
     <>
       <h1>Violin Scales</h1>
@@ -281,29 +216,13 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
                 <td><button id="CopyAsc-button">Copy Ascending</button></td>
             </tr>
         </table>
-{/* The table is rendered using nested map functions. The outer map iterates over the rows, and the inner map iterates over the cells in each row. */}
-<table>
-        {tableData.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((cell, colIndex) => (
-              <td key={colIndex}>
-                <input
-                  type={colIndex === 1 ? "number" : "text"}
-                  value={cell}
-                  // onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)}
-                />
-              </td>
-            ))}
-          </tr>
-        ))}
-</table>
-
 <div>
   {violinData.map((row, rowIndex) => (
           <div key={rowIndex} className="container">
             {row.map((cell, colIndex) => (
             <div key={colIndex}>
               <div>
+                {/* onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)} */}
                 {cell.Finger ? cell.Finger : "\u00a0"} 
               </div>
               <div>
