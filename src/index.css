@@ -66,3 +66,15 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+#Violin td {
+  border-spacing: 0px;
+  border-collapse: separate;
+  border: 1px solid white;
+
+  height: 20px;
+  width: 40px;
+
+  text-align: center;
+  vertical-align: middle;
+}

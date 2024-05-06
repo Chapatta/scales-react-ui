@@ -114,33 +114,33 @@ const updateCell = (fingerPositions : IFingerPos[][], fingerPosition: IFingerPos
 }
 
 const getStringIndex = (fingerPosition: IFingerPos) => {
-  let ascIndex = 0; 
+  let stringIndex = 0; 
   switch (fingerPosition.String) {
     case "E":
-      ascIndex = 7;
+      stringIndex = 4;
       //console.log("Start of the work week!");
       break;
     case "A":
-      ascIndex = 6;
+      stringIndex = 5;
       //console.log("Start of the work week!");
       break;
     case "D":
-      ascIndex = 5;
+      stringIndex = 6;
       //console.log("Start of the work week!");
       break;
     case "G":
-      ascIndex = 4;
+      stringIndex = 7;
     //console.log("Start of the work week!");
       break;
     default:
       console.log("Invalid String.");
       break;
   }
-  if (fingerPosition.Direction == 'Desc') 
+  if (fingerPosition.Direction == 'Asc') 
   {
-    ascIndex = ascIndex - 4;
+    stringIndex = stringIndex - 4;
   }
-  return ascIndex;
+  return stringIndex;
 }
 
   return (
@@ -216,19 +216,19 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
                 <td><button id="CopyAsc-button">Copy Ascending</button></td>
             </tr>
         </table>
-<div>
+<div id="Violin">
   {violinData.map((row, rowIndex) => (
           <div key={rowIndex} className="container">
             {row.map((cell, colIndex) => (
             <div key={colIndex}>
-              <div>
+              <div className="position finger">
                 {/* onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)} */}
                 {cell.Finger ? cell.Finger : "\u00a0"} 
               </div>
-              <div>
+              <div className="position">
                 {cell.Position ? cell.Position : "\u00a0"} 
               </div>
-              <div>
+              <div className="position note">
                 {cell.Note ? cell.Note : "\u00a0"} 
               </div>
               </div>
