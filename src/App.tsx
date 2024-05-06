@@ -8,6 +8,9 @@ import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
 import ScalesDropDown from './Components/UI/ScalesDropDown'
 import Label from './Components/UI/Label'
 import Violin from './Components/UI/Violin'
+//import { GetFingerPositions } from './DataLayer/Test/TestCalls'
+import * as DAL from './DataLayer/Test/TestCalls'
+import * as IFingerPos from '../Interfaces/IFingerPositions'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
@@ -71,7 +74,7 @@ const [scaleDropdownText, setScaleDropdownText] = useState('');
   ];
 
   const [tableData, setTableData] = useState(initialData);
-  const [violinData, setViolinData] = useState(initialViolinData);
+  const [violinData, setViolinData] = useState<IFingerPos[][]>([]);
 
   // const [cellData, setCellData] = useState(
   //   Array.from({ length: rows }, () => Array(columns).fill(''))
@@ -80,22 +83,130 @@ const [scaleDropdownText, setScaleDropdownText] = useState('');
 
 const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   const selectedOption = event.target.value;
-  setScaleDropdownValue(parseInt(selectedOption));
+  const scaleID = parseInt(selectedOption);
+  console.log(`scaleID ${scaleID}`);
+
+  setScaleDropdownValue(scaleID);
+
+  const currentScale = DAL.GetScale(scaleID);
 
   // Find the selected option element and extract its text
   const selectedOptionText = event.target.selectedOptions[0].text;
   setScaleDropdownText(selectedOptionText);
+
+  const initialViolinData = getScale(scaleID,currentScale.Octaves);
+
+  displayViolinData(initialViolinData);
+
+  setViolinData(initialViolinData)
 };
 
-const updateCell = (rowIndex, colIndex, newValue) => {
-  setTableData((prevData) =>
-    prevData.map((row, rIdx) =>
-      rIdx === rowIndex
-        ? row.map((cell, cIdx) => (cIdx === colIndex ? newValue : cell))
-        : row
-    )
-  );
-};
+const getScale = (scaleID: number,octaves: number) =>
+{
+  const rows = 8;
+  const columns = 18;
+
+  // Initialize the 2D array with a default object in each cell
+  const twoDimArray : IFingerPos[][] = Array.from({ length: rows }, (_, rowIndex) =>
+  Array.from({ length: columns }, (_, colIndex) => ({
+    String: rowIndex,
+    Fret: colIndex,
+    Position: '',
+    Finger: -1,
+    Note: ''
+      }))
+    );
+  console.log(`scaleID ${scaleID} octaves ${octaves}`);
+    
+  if (scaleID != 0)
+  {
+    // 18
+    const fingerPositions = DAL.GetFingerPositions(scaleID,octaves);
+    //String":"E","Fret":6,"Direction":"Asc",
+    //console.log(`fingerPositions ${fingerPositions}`);
+
+    fingerPositions.forEach((fingerPosition) => {
+      updateCell(twoDimArray,fingerPosition)
+      //console.log(`Index ${index}: ${value}`);
+    });
+  }
+//  displayViolinData(twoDimArray);
+  return twoDimArray;
+}
+
+const displayViolinData = (fingerPositions : IFingerPos[][]) => {
+  // Use forEach to iterate through rows and columns
+  fingerPositions.forEach((row, rowIndex) => {
+    row.forEach((element, columnIndex) => {
+      console.log(`Element at row ${rowIndex}, column ${columnIndex}: ${element.String} ${element.Fret} ${element.Position} ${element.Finger}  ${element.Note}`);
+    });
+  });
+}
+
+const updateCell = (fingerPositions : IFingerPos[][], fingerPosition: IFingerPos.IFingerPositionSource) => {
+  const rowIndex = getStringIndex(fingerPosition);
+  const colIndex = fingerPosition.Fret;
+  fingerPositions.map((row, rIdx) => {
+      if (rIdx === rowIndex) {  
+        return row.map((cell, cIdx) => {
+              if (cIdx === colIndex) {
+                cell.Position = fingerPosition.Position;
+                cell.Finger = fingerPosition.Finger;
+                cell.Note = fingerPosition.Note;
+                return cell;
+              } else {
+                return cell;
+              } 
+            });
+      } else {
+        return row;
+      }
+  });
+}
+
+const getStringIndex = (fingerPosition: IFingerPos) => {
+  let ascIndex = 0; 
+  switch (fingerPosition.String) {
+    case "E":
+      ascIndex = 7;
+      //console.log("Start of the work week!");
+      break;
+    case "A":
+      ascIndex = 6;
+      //console.log("Start of the work week!");
+      break;
+    case "D":
+      ascIndex = 5;
+      //console.log("Start of the work week!");
+      break;
+    case "G":
+      ascIndex = 4;
+    //console.log("Start of the work week!");
+      break;
+    default:
+      console.log("Invalid String.");
+      break;
+  }
+  if (fingerPosition.Direction == 'Desc') 
+  {
+    ascIndex = ascIndex - 4;
+  }
+  return ascIndex;
+}
+
+
+//        ? row.map((cell, cIdx) => (cIdx === colIndex ? newValue : cell))
+
+
+// const updateCell = (rowIndex, colIndex, newValue) => {
+//   setTableData((prevData) =>
+//     prevData.map((row, rIdx) =>
+//       rIdx === rowIndex
+//         ? row.map((cell, cIdx) => (cIdx === colIndex ? newValue : cell))
+//         : row
+//     )
+//   );
+// };
 
   return (
     <>
@@ -193,13 +304,13 @@ const updateCell = (rowIndex, colIndex, newValue) => {
             {row.map((cell, colIndex) => (
             <div key={colIndex}>
               <div>
-                {cell.finger}
+                {cell.Finger}
               </div>
               <div>
-                {cell.position}
+                {cell.Position}
               </div>
               <div>
-                {cell.note}
+                {cell.Note}
               </div>
               </div>
             ))}

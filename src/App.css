@@ -59,6 +59,6 @@
 
 .container {
   display: grid; /* Grid layout */
-  grid-template-columns: repeat(3, 1fr); /* 3 columns of equal width */
+  grid-template-columns: repeat(18, 1fr); /* 3 columns of equal width */
   gap: 10px; /* Space between grid items */
 }

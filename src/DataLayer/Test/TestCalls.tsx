@@ -10,6 +10,10 @@ import keyScalesJSON from './KeyScales.json';
 import violinNoteJSON from './ViolinNotes.json';
 import noteFretsJSON from './NoteFrets.json';
 
+//Interfaces
+import * as IFingerPos from '../Interfaces/IFingerPositions'
+import * as IScale from '../Interfaces/IScale'
+
 //This was not needed the system is smart enough to infer the interface from the json file!!
 // export interface Key {
 //     notes: string;
@@ -61,14 +65,17 @@ export function GetKeyScales(keyNotes: string)
     return keyScalesJSON.filter(item => {return item.KeyNotes == keyNotes}).sort((r1, r2) => (r1.ScaleType > r2.ScaleType) ? 1 : (r1.ScaleType < r2.ScaleType) ? -1 : 0);
 }
 
-export function GetScale(scaleID: number)
+export function GetScale(scaleID: number) : IScalesSource
 {
     return scalesJSON.find(item => {return item.ID == scaleID})
 }
 
-export function GetFingerPositions(scaleID: number,octaves: number)
+export function GetFingerPositions(scaleID: number,octaves: number) : IFingerPos.IFingerPositionSource[]
 {
-    return fingerPositionJSON.filter(item => {return item.Scale == scaleID && item.Octaves == octaves})
+    const fingerPositionsData: IFingerPos.IFingerPositionsData = fingerPositionJSON;
+    const fingerPositionsArray: IFingerPos.IFingerPositionSource[] = fingerPositionsData.positions ?? [];
+
+    return fingerPositionsArray.filter(item => {return item.Scale == scaleID && item.Octaves == octaves})
 }
 
 export function GetViolinNotes(string: string,fret: number)
