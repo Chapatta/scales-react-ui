@@ -10,7 +10,7 @@ import Label from './Components/UI/Label'
 import ViolinNeck from './Components/UI/ViolinNeck'
 //import { GetFingerPositions } from './DataLayer/Test/TestCalls'
 import * as DAL from './DataLayer/Test/TestCalls'
-//import * as IFingerPos from './Datalayer/Interfaces/IFingerPositions'
+import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
@@ -214,6 +214,7 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
         </table>
 <div id="Violin">
     <ViolinNeck violinData={violinDataAsc} />
+    <div id ="ViolinSpacer"></div>
     <ViolinNeck violinData={violinDataDesc} />
 </div>
 
