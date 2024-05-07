@@ -11,29 +11,32 @@ import ViolinNeck from './Components/UI/ViolinNeck'
 //import { GetFingerPositions } from './DataLayer/Test/TestCalls'
 import * as DAL from './DataLayer/Test/TestCalls'
 import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
+import { IScaleSource } from './DataLayer/Interfaces/IScales'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
   //  const [count, setCount] = useState(0)
   const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
-  const [scaleDropdownValue, setScaleDropdownValue] = useState(0);
   const [scaleDropdownText, setScaleDropdownText] = useState('');
 
   const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>([]);
   const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>([]);
+
+  const [scaleKeySignature, setScaleKeySignature] = useState('');
+  const [scaleNotes, setScaleNotes] = useState('');
 
   const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value;
     const scaleID = parseInt(selectedOption);
     console.log(`scaleID ${scaleID}`);
 
-    setScaleDropdownValue(scaleID);
-
-    const currentScale = DAL.GetScale(scaleID);
+    const currentScale : IScaleSource = DAL.GetScale(scaleID);
 
     // Find the selected option element and extract its text
     const selectedOptionText = event.target.selectedOptions[0].text;
     setScaleDropdownText(selectedOptionText);
+    setScaleKeySignature(currentScale.KeyNotes);
+    setScaleNotes(currentScale.Notes);
 
     const fingerPositions = DAL.GetFingerPositions(scaleID,currentScale.Octaves);
 
@@ -73,8 +76,8 @@ function App() {
         {/* onSelect={(selectedValue) => {console.log('Selected value:', selectedValue); setScaleDropdownValue;}} */}
       </div>
       <Label  id="ScaleName-label" caption="Scale Name:" text={scaleDropdownText}/>
-      <Label  id="KeySignature-label" caption="Key Signature:" text=""/>
-      <Label  id="Notes-label" caption="Notes:" text=""/>
+      <Label  id="KeySignature-label" caption="Key Signature:" text={scaleKeySignature}/>
+      <Label  id="Notes-label" caption="Notes:" text={scaleNotes}/>
     </div>
   </div>
   <table>
