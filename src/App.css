@@ -45,7 +45,7 @@
   display: flex; /* Use flexbox */
 }
 
-#ViolinNecks .position {
+.position {
   border-spacing: 0px;
   border-collapse: separate;
   border: 1px solid rgb(136, 135, 135);
@@ -61,7 +61,7 @@
 
 .ViolinNeck {
   display: grid; /* Grid layout */
-  grid-template-columns: repeat(18, 1fr); /* 3 columns of equal width */
+  grid-template-columns: repeat(18, 1fr); /* 18 columns of equal width */
   gap: 10px; /* Space between grid items */
 }
 
@@ -106,7 +106,7 @@
   gap: 10px; /* Space between grid items */
 }
 
-#stringCaptions div:not(#ViolinSpacer)
+#stringCaptions div:not(#ViolinSpacer,.position)
 {
   display: flex;
   align-items: center; /* Vertically centers text */

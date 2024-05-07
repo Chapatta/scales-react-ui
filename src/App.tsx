@@ -4,6 +4,7 @@ import { useState } from 'react'
 import './App.css'
 // import './CSS/styles.css'
 import KeysDropDown from './Components/UI/KeysDropDown'
+import FretBar from './Components/UI/FretBar'
 import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
 import ScalesDropDown from './Components/UI/ScalesDropDown'
 import Label from './Components/UI/Label'
@@ -91,19 +92,17 @@ function App() {
   </table>
   <div id="Violin">
     <div id="stringCaptions">
-      <div>E</div>
-      <div>A</div>
-      <div>D</div>
-      <div>G</div>
+      <div className ="position"></div>
+      <div>E</div><div>A</div><div>D</div><div>G</div>
       <div id ="ViolinSpacer"></div>
-      <div>E</div>
-      <div>A</div>
-      <div>D</div>
-      <div>G</div>
+      <div className ="position"></div>
+      <div>E</div><div>A</div><div>D</div><div>G</div>
     </div>
     <div id="ViolinNecks">
+      <FretBar/>
       <ViolinNeck violinData={violinDataAsc} />
       <div id ="ViolinSpacer"></div>
+      <FretBar/>
       <ViolinNeck violinData={violinDataDesc} />
     </div>
   </div>
