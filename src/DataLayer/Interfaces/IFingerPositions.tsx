@@ -15,9 +15,9 @@ export interface IFingerPositionSource {
 export default interface IFingerPosition {
     String: number;
     Fret: number;
-    Position: string;
-    Finger: number;
-    Note: string;
+    Position: string | null;
+    Finger: number | null;
+    Note: string  | null;
 }
 
 // Define the type for the entire JSON object

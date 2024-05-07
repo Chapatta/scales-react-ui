@@ -14,25 +14,15 @@ import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
 
 function App() {
-//  const [count, setCount] = useState(0)
-const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
-const [scaleDropdownValue, setScaleDropdownValue] = useState(0);
-const [scaleDropdownText, setScaleDropdownText] = useState('');
+  //  const [count, setCount] = useState(0)
+  const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
+  const [scaleDropdownValue, setScaleDropdownValue] = useState(0);
+  const [scaleDropdownText, setScaleDropdownText] = useState('');
 
-  // const [cellData, setCellData] = useState(
-  //   Array.from({ length: rows }, () => Array(columns).fill(''))
-  // );
+  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>([]);
+  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>([]);
 
-  // const [violinData, setViolinData] = useState<IFingerPos[][]>([]);
-  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos[][]>([]);
-  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos[][]>([]);
-
-  // const [cellData, setCellData] = useState(
-  //   Array.from({ length: rows }, () => Array(columns).fill(''))
-  // );
-
-
-const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
   const selectedOption = event.target.value;
   const scaleID = parseInt(selectedOption);
   console.log(`scaleID ${scaleID}`);
@@ -50,8 +40,8 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
   const fingerPositionsAsc = fingerPositions.filter(fingerPos => fingerPos.Direction = "Asc");
   const fingerPositionsDesc = fingerPositions.filter(fingerPos => fingerPos.Direction = "Desc")
 
-  const violinDataAsc : IFingerPos[][] = getScale(fingerPositionsAsc);
-  const violinDataDesc : IFingerPos[][]= getScale(fingerPositionsDesc);
+  const violinDataAsc : IFingerPos.default[][] = getScale(fingerPositionsAsc);
+  const violinDataDesc : IFingerPos.default[][]= getScale(fingerPositionsDesc);
 
   // displayViolinData(initialViolinData);
 
@@ -59,13 +49,13 @@ const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) 
   setViolinDataDesc(violinDataDesc)
 };
 
-const getScale = (fingerPositions: IFingerPos.IFingerPositionSource[]) : IFingerPos[][] =>
+const getScale = (fingerPositions: IFingerPos.IFingerPositionSource[]) : IFingerPos.default[][] =>
 {
   const rows = 4;
   const columns = 18;
 
   // Initialize the 2D array with a default object in each cell
-  const twoDimArray : IFingerPos[][] = Array.from({ length: rows }, (_, rowIndex) =>
+  const twoDimArray : IFingerPos.default[][] = Array.from({ length: rows }, (_, rowIndex) =>
   Array.from({ length: columns }, (_, colIndex) => ({
     String: rowIndex,
     Fret: colIndex,
@@ -83,7 +73,7 @@ const getScale = (fingerPositions: IFingerPos.IFingerPositionSource[]) : IFinger
   return twoDimArray;
 }
 
-const displayViolinData = (fingerPositions : IFingerPos[][]) => {
+const displayViolinData = (fingerPositions : IFingerPos.default[][]) => {
   // Use forEach to iterate through rows and columns
   fingerPositions.forEach((row, rowIndex) => {
     row.forEach((element, columnIndex) => {
@@ -92,7 +82,7 @@ const displayViolinData = (fingerPositions : IFingerPos[][]) => {
   });
 }
 
-const updateCell = (fingerPositions : IFingerPos[][], fingerPosition: IFingerPos.IFingerPositionSource) => {
+const updateCell = (fingerPositions : IFingerPos.default[][], fingerPosition: IFingerPos.IFingerPositionSource) => {
   const rowIndex = getStringIndex(fingerPosition);
   const colIndex = fingerPosition.Fret;
   fingerPositions.map((row, rIdx) => {
@@ -113,7 +103,7 @@ const updateCell = (fingerPositions : IFingerPos[][], fingerPosition: IFingerPos
   });
 }
 
-const getStringIndex = (fingerPosition: IFingerPos) => {
+const getStringIndex = (fingerPosition: IFingerPos.IFingerPositionSource) => {
   let stringIndex = 0; 
   switch (fingerPosition.String) {
     case "E":
@@ -139,9 +129,9 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
   return stringIndex;
 }
 
-  return (
-    <>
-      <h1>Violin Scales</h1>
+return (
+  <>
+  <h1>Violin Scales</h1>
   <div className="scaleSelector">
     <div className="stackVertical">
       <div className='tableRow'>
@@ -162,37 +152,24 @@ const getStringIndex = (fingerPosition: IFingerPos) => {
         <div><ScalesDropDown scaleType = {scaleTypeDropdownValue} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
         {/* onSelect={(selectedValue) => {console.log('Selected value:', selectedValue); setScaleDropdownValue;}} */}
       </div>
-      <div className='tableRow'>
-        <div>Scale Name:</div>
-        <div className="VertSpacer"></div>
-        <div id="ScaleName-label">{scaleDropdownText}</div>
-      </div>
-      <div className='tableRow'>
-        <div>Key Signature:</div>
-        <div className="VertSpacer"></div>
-        <div id="KeySignature-label"></div>
-      </div>
-      <div className='tableRow'>
-        <div>Notes:</div>
-        <div className="VertSpacer"></div>
-        <div id="Notes-label"></div>
-      </div>
+      <Label  id="ScaleName-label" caption="Scale Name:" text={scaleDropdownText}/>
+      <Label  id="KeySignature-label" caption="Key Signature:" text=""/>
+      <Label  id="Notes-label" caption="Notes:" text=""/>
     </div>
   </div>
-        <table>
-            <tr>
-                <td>Lock Violin<input type="checkbox" id="LockViolin"/></td>
-                <td><button id="Export-button">Export</button></td>
-                <td><button id="CopyAsc-button">Copy Ascending</button></td>
-            </tr>
-        </table>
-<div id="Violin">
+  <table>
+      <tr>
+          <td>Lock Violin<input type="checkbox" id="LockViolin"/></td>
+          <td><button id="Export-button">Export</button></td>
+          <td><button id="CopyAsc-button">Copy Ascending</button></td>
+      </tr>
+  </table>
+  <div id="Violin">
     <ViolinNeck violinData={violinDataAsc} />
     <div id ="ViolinSpacer"></div>
     <ViolinNeck violinData={violinDataDesc} />
-</div>
-
-    </>
+  </div>
+  </>
   )
 }
 
