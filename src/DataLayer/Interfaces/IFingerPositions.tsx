@@ -24,8 +24,11 @@ export default interface IFingerPosition {
 export interface IFingerPositionsData {
     positions?: IFingerPositionSource[];
 }
-  
-export const updateCell = (fingerPositions : IFingerPosition[][], fingerPosition: IFingerPositionSource) => {
+
+const rows = 4;
+const columns = 18;
+
+const updateCell = (fingerPositions : IFingerPosition[][], fingerPosition: IFingerPositionSource) => {
     const rowIndex = getStringIndex(fingerPosition);
     const colIndex = fingerPosition.Fret;
     fingerPositions.map((row, rIdx) => {
@@ -44,50 +47,61 @@ export const updateCell = (fingerPositions : IFingerPosition[][], fingerPosition
           return row;
         }
     });
-  }
+}
 
-  const displayViolinData = (fingerPositions : IFingerPosition[][]) => {
+const displayViolinData = (fingerPositions : IFingerPosition[][]) => {
     // Use forEach to iterate through rows and columns
     fingerPositions.forEach((row, rowIndex) => {
-      row.forEach((element, columnIndex) => {
+        row.forEach((element, columnIndex) => {
         console.log(`Element at row ${rowIndex}, column ${columnIndex}: ${element.String} ${element.Fret} ${element.Position} ${element.Finger}  ${element.Note}`);
-      });
+        });
     });
-  }
-  
-  const getStringIndex = (fingerPosition: IFingerPositionSource) => {
+}
+
+const getStringIndex = (fingerPosition: IFingerPositionSource) => {
     let stringIndex = 0; 
     switch (fingerPosition.String) {
-      case "E":
+        case "E":
         stringIndex = 0;
         //console.log("Start of the work week!");
         break;
-      case "A":
+        case "A":
         stringIndex = 1;
         //console.log("Start of the work week!");
         break;
-      case "D":
+        case "D":
         stringIndex = 2;
         //console.log("Start of the work week!");
         break;
-      case "G":
+        case "G":
         stringIndex = 3;
-      //console.log("Start of the work week!");
+        //console.log("Start of the work week!");
         break;
-      default:
+        default:
         console.log("Invalid String.");
         break;
     }
     return stringIndex;
-  }
+}
   
-  export const getScale = (fingerPositions: IFingerPositionSource[]) : IFingerPosition[][] =>
-    {
-        const rows = 4;
-        const columns = 18;
+export const getScale = (fingerPositions: IFingerPositionSource[]) : IFingerPosition[][] =>
+{
 
-        // Initialize the 2D array with a default object in each cell
-        const twoDimArray : IFingerPosition[][] = Array.from({ length: rows }, (_, rowIndex) =>
+
+    // Initialize the 2D array with a default object in each cell
+    const twoDimArray : IFingerPosition[][] = emptyViolinNeck()
+    
+    fingerPositions.forEach((fingerPosition) => {
+        updateCell(twoDimArray,fingerPosition)
+        //console.log(`Index ${index}: ${value}`);
+    });
+    //  displayViolinData(twoDimArray);
+    return twoDimArray;
+}
+
+export const emptyViolinNeck = () : IFingerPosition[][] =>
+{
+    const twoDimArray : IFingerPosition[][] = Array.from({ length: rows }, (_, rowIndex) =>
         Array.from({ length: columns }, (_, colIndex) => ({
         String: rowIndex,
         Fret: colIndex,
@@ -96,12 +110,7 @@ export const updateCell = (fingerPositions : IFingerPosition[][], fingerPosition
         Note: null
             }))
         );
-        
-        fingerPositions.forEach((fingerPosition) => {
-            updateCell(twoDimArray,fingerPosition)
-            //console.log(`Index ${index}: ${value}`);
-        });
-        //  displayViolinData(twoDimArray);
-        return twoDimArray;
-    }
-  
+    return twoDimArray;
+}
+
+

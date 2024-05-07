@@ -20,8 +20,8 @@ function App() {
   const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
   const [scaleDropdownText, setScaleDropdownText] = useState('');
 
-  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>([]);
-  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>([]);
+  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
+  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
 
   const [scaleKeySignature, setScaleKeySignature] = useState('');
   const [scaleNotes, setScaleNotes] = useState('');
