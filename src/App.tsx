@@ -13,6 +13,7 @@ import * as DAL from './DataLayer/Test/TestCalls'
 import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
 import { IScaleSource } from './DataLayer/Interfaces/IScales'
 // import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
+import StringDirection from './Components/StringDirection'
 
 function App() {
   //  const [count, setCount] = useState(0)
@@ -40,8 +41,8 @@ function App() {
 
     const fingerPositions = DAL.GetFingerPositions(scaleID,currentScale.Octaves);
 
-    const fingerPositionsAsc = fingerPositions.filter(fingerPos => fingerPos.Direction = "Asc");
-    const fingerPositionsDesc = fingerPositions.filter(fingerPos => fingerPos.Direction = "Desc")
+    const fingerPositionsAsc = fingerPositions.filter(fingerPos => fingerPos.Direction = StringDirection.Asc);
+    const fingerPositionsDesc = fingerPositions.filter(fingerPos => fingerPos.Direction = StringDirection.Desc)
 
     const violinDataAsc : IFingerPos.default[][] = IFingerPos.getScale(fingerPositionsAsc);
     const violinDataDesc : IFingerPos.default[][]= IFingerPos.getScale(fingerPositionsDesc);

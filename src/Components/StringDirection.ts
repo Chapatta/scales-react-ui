@@ -1,5 +1,5 @@
   enum StringDirection {
-    Asc = "Ascending",
-    Desc = "Descending"
+    Asc = "Asc",
+    Desc = "Desc"
   }
   export default StringDirection;
