@@ -18,6 +18,7 @@ import StringDirection from './Components/StringDirection'
 function App() {
   //  const [count, setCount] = useState(0)
   const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
+  const [scaleKeyDropdownValue, setScaleKeyDropdownValue] = useState(0);
   const [scaleDropdownText, setScaleDropdownText] = useState('');
 
   const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
@@ -89,9 +90,22 @@ function App() {
       </tr>
   </table>
   <div id="Violin">
-    <ViolinNeck violinData={violinDataAsc} />
-    <div id ="ViolinSpacer"></div>
-    <ViolinNeck violinData={violinDataDesc} />
+    <div id="stringCaptions">
+      <div>E</div>
+      <div>A</div>
+      <div>D</div>
+      <div>G</div>
+      <div id ="ViolinSpacer"></div>
+      <div>E</div>
+      <div>A</div>
+      <div>D</div>
+      <div>G</div>
+    </div>
+    <div id="ViolinNecks">
+      <ViolinNeck violinData={violinDataAsc} />
+      <div id ="ViolinSpacer"></div>
+      <ViolinNeck violinData={violinDataDesc} />
+    </div>
   </div>
   </>
   )
