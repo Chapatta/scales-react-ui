@@ -41,7 +41,7 @@ interface DropdownProps {
   onSelect: (value: string) => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
+const Dropdown = ({ onSelect}: DropdownProps) => {
   const scaleTypes = DataLayer.GetScaleTypes();
   const [selectedOption, setSelectedOption] = useState<string>('');
 

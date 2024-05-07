@@ -29,8 +29,10 @@ interface DropdownProps {
   onSelect: (value: string) => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ onSelect }) => {
-  let keys = DataLayer.GetKeys();
+//const Label = ({ id,caption,text}: LabelProps) => (
+
+const Dropdown = ({ onSelect }: DropdownProps) => {
+  const keys = DataLayer.GetKeys();
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

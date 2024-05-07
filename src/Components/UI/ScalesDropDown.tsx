@@ -56,14 +56,14 @@ interface DropdownProps {
 /*
 Using React.FC provides type safety and helps with auto-completion and documentation in TypeScript-based React projects. It's also a convention used by many developers when defining functional components in React with TypeScript.
 */
-const Dropdown: React.FC<DropdownProps> = (props) => {
-  const scales = DataLayer.GetScales(props.scaleType);
+const Dropdown = ({ scaleType,onSelect}: DropdownProps) => {
+  const scales = DataLayer.GetScales(scaleType);
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
-    props.onSelect(e);
+    onSelect(e);
   };
 
   return (
