@@ -86,8 +86,6 @@ const getStringIndex = (fingerPosition: IFingerPositionSource) => {
   
 export const getScale = (fingerPositions: IFingerPositionSource[]) : IFingerPosition[][] =>
 {
-
-
     // Initialize the 2D array with a default object in each cell
     const twoDimArray : IFingerPosition[][] = emptyViolinNeck()
     

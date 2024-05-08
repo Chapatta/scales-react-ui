@@ -1,36 +1,28 @@
 import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import './App.css'
-// import './CSS/styles.css'
 import KeysDropDown from './Components/UI/KeysDropDown'
 import FretBar from './Components/UI/FretBar'
 import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
 import ScalesDropDown from './Components/UI/ScalesDropDown'
 import Label from './Components/UI/Label'
 import ViolinNeck from './Components/UI/ViolinNeck'
-//import { GetFingerPositions } from './DataLayer/Test/TestCalls'
 import * as DAL from './DataLayer/Test/TestCalls'
 import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
-import { IScaleSource } from './DataLayer/Interfaces/IScales'
-// import DropdownExample from './Code Snippets/ChatGPTDropDownFunctionalComponent'
+import {IScaleSource} from './DataLayer/Interfaces/IScales'
 import StringDirection from './Components/StringDirection'
 
 function App() {
-  //  const [count, setCount] = useState(0)
-  // const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
-  // const [scaleKeyDropdownValue, setScaleKeyDropdownValue] = useState(0);
-  const [scaleDropdownText, setScaleDropdownText] = useState('');
+    const [scaleDropdownText, setScaleDropdownText] = useState('');
 
-  const [dropDownScales, setDropdownScales] = useState<IScale.IScaleSource[]>([]);
-  
-  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
-  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
+    const [dropDownScales, setDropdownScales] = useState<IScaleSource[]>([]);
+    
+    const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
+    const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
 
-  const [scaleKeySignature, setScaleKeySignature] = useState('');
-  const [scaleNotes, setScaleNotes] = useState('');
+    const [scaleKeySignature, setScaleKeySignature] = useState('');
+    const [scaleNotes, setScaleNotes] = useState('');
 
-  const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value;
     const scaleID = parseInt(selectedOption);
     console.log(`scaleID ${scaleID}`);
@@ -59,7 +51,7 @@ function App() {
 
   return (
   <>
-  <h1>Violin Scales</h1>
+  {/* <h1>Violin Scales</h1> */}
   <div className="scaleSelector">
     <div className="stackVertical">
       <div className='tableRow'>
