@@ -9,7 +9,7 @@ import Label from './Components/UI/Label'
 import ViolinNeck from './Components/UI/ViolinNeck'
 import * as DAL from './DataLayer/Test/TestCalls'
 import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
-import {IScaleSource} from './DataLayer/Interfaces/IScales'
+import IScaleSource from './DataLayer/Interfaces/IScales'
 import StringDirection from './Components/StringDirection'
 
 function App() {
@@ -82,7 +82,6 @@ function App() {
         <div>Scales:</div>
         <div className="VertSpacer"></div>
         <div><ScalesDropDown scales = {dropDownScales} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
-        {/* onSelect={(selectedValue) => {console.log('Selected value:', selectedValue); setScaleDropdownValue;}} */}
       </div>
       <Label  id="ScaleName-label" caption="Scale Name:" text={scaleDropdownText}/>
       <Label  id="KeySignature-label" caption="Key Signature:" text={scaleKeySignature}/>

@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-// import KeysDropDown from './DataLayer/APICalls'
-
 import * as DAL from '../../DataLayer/Test/TestCalls';
-//import { Key } from '../DataLayer/TestCalls';
-// import { getKeys } from '../DataLayer/TestCalls';
-// import KeysDropDown from './DataLayer/TestCalls'
 
 interface DropdownProps {
   //keys: Keys.Key[];

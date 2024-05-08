@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-// import KeysDropDown from './DataLayer/APICalls'
-
-import * as IScale from '../../DataLayer/Interfaces/IScales';
-//import { Key } from '../DataLayer/TestCalls';
-// import { getKeys } from '../DataLayer/TestCalls';
-// import KeysDropDown from './DataLayer/TestCalls'
+import IScaleSource from '../../DataLayer/Interfaces/IScales';
 
 enum ScaleType {
     Major = 1,
@@ -18,7 +13,7 @@ enum ScaleType {
 
 interface Scale { ID: number; Scale: number; ScaleType: number; Octaves: number; StartingNote: string; Name: string; Notes: string; KeyNotes: string; }
 interface DropdownProps {
-  scales: IScale.IScaleSource[];
+  scales: IScaleSource[];
   // onSelect: (value: string) => void;
   onSelect:(event: React.ChangeEvent<HTMLSelectElement>) => void;
 }

@@ -1,5 +1,5 @@
 // Define the type for a single finger position
-export interface IScaleSource {
+export default interface IScaleSource {
     ID: number;
     Scale: number;
     ScaleType: number;
