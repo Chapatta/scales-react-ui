@@ -19,6 +19,6 @@ export interface IScaleSource {
 // }
 
 // Define the type for the entire JSON object
-export interface IIScalesSourceData {
+export interface IScalesSourceData {
     scales?: IScaleSource[];
 }

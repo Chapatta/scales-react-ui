@@ -6,13 +6,12 @@ import scaleTypesJSON from './ScaleTypes.json';
 import scalesJSON from './Scales.json';
 import fingerPositionJSON from './FingerPositions.json';
 import keySignaturesJSON from './KeySignatures.json';
-import keyScalesJSON from './KeyScales.json';
 import violinNoteJSON from './ViolinNotes.json';
 import noteFretsJSON from './NoteFrets.json';
 
 //Interfaces
 import * as IFingerPos from '../Interfaces/IFingerPositions'
-import * as IScale from '../Interfaces/IScale'
+import * as IScale from '../Interfaces/IScales'
 
 //This was not needed the system is smart enough to infer the interface from the json file!!
 // export interface Key {
@@ -50,7 +49,7 @@ export function GetScaleTypes()
     return scaleTypesJSON;
 }
 
-export function GetScales(scaleType: number)
+export function GetScaleTypeScales(scaleType: number) : IScale.IScaleSource[]
 {
     return scalesJSON.filter(item => {return item.ScaleType == scaleType}).sort((r1, r2) => (r1.StartingNote > r2.StartingNote) ? 1 : (r1.StartingNote < r2.StartingNote) ? -1 : 0);
 }
@@ -60,12 +59,12 @@ export function GetMaxFret()
     return fingerPositionJSON.reduce((a,b)=>a.Fret>b.Fret?a:b).Fret;
 }
 
-export function GetKeyScales(keyNotes: string)
+export function GetKeyScales(keyNotes: string) : IScale.IScaleSource[]
 {
-    return keyScalesJSON.filter(item => {return item.KeyNotes == keyNotes}).sort((r1, r2) => (r1.ScaleType > r2.ScaleType) ? 1 : (r1.ScaleType < r2.ScaleType) ? -1 : 0);
+    return scalesJSON.filter(item => {return item.KeyNotes == keyNotes}).sort((r1, r2) => (r1.ScaleType > r2.ScaleType) ? 1 : (r1.ScaleType < r2.ScaleType) ? -1 : 0);
 }
 
-export function GetScale(scaleID: number) : IScalesSource
+export function GetScale(scaleID: number) : IScale.IScaleSource
 {
     return scalesJSON.find(item => {return item.ID == scaleID})
 }

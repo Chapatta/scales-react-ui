@@ -18,10 +18,12 @@ import StringDirection from './Components/StringDirection'
 
 function App() {
   //  const [count, setCount] = useState(0)
-  const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
-  const [scaleKeyDropdownValue, setScaleKeyDropdownValue] = useState(0);
+  // const [scaleTypeDropdownValue, setScaleTypeDropdownValue] = useState(0);
+  // const [scaleKeyDropdownValue, setScaleKeyDropdownValue] = useState(0);
   const [scaleDropdownText, setScaleDropdownText] = useState('');
 
+  const [dropDownScales, setDropdownScales] = useState<IScale.IScaleSource[]>([]);
+  
   const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
   const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
 
@@ -63,19 +65,30 @@ function App() {
       <div className='tableRow'>
         <div>Key:</div>
         <div className="VertSpacer"></div>
-        <div><KeysDropDown onSelect={(selectedValue) => console.log('Selected value:', selectedValue)}></KeysDropDown></div>
+        <div><KeysDropDown onSelect={(selectedValue) => {
+            console.log('Selected value:', selectedValue), 
+            setDropdownScales(DAL.GetKeyScales(selectedValue))
+              }}>
+
+             </KeysDropDown>
+        </div>
       </div>
       <div className='tableRow'>
         <div>Scale Type:</div>
         <div className="VertSpacer"></div>
-        <div><ScaleTypesDropDown onSelect={(selectedValue) => {console.log('Selected value:', selectedValue), setScaleTypeDropdownValue(parseInt(selectedValue,10))}}></ScaleTypesDropDown></div>
+        <div><ScaleTypesDropDown onSelect={(selectedValue) => {
+            console.log('Selected value:', selectedValue), 
+            setDropdownScales(DAL.GetScaleTypeScales(parseInt(selectedValue,10)))
+              }}>
+            </ScaleTypesDropDown>
+        </div>
       </div>
     </div>
     <div className="stackVertical">
       <div className='tableRow'>
         <div>Scales:</div>
         <div className="VertSpacer"></div>
-        <div><ScalesDropDown scaleType = {scaleTypeDropdownValue} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
+        <div><ScalesDropDown scales = {dropDownScales} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
         {/* onSelect={(selectedValue) => {console.log('Selected value:', selectedValue); setScaleDropdownValue;}} */}
       </div>
       <Label  id="ScaleName-label" caption="Scale Name:" text={scaleDropdownText}/>
