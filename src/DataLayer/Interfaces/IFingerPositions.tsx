@@ -20,11 +20,6 @@ export default interface IFingerPosition {
     Note: string  | null;
 }
 
-// Define the type for the entire JSON object
-export interface IFingerPositionsData {
-    positions?: IFingerPositionSource[];
-}
-
 const rows = 4;
 const columns = 18;
 

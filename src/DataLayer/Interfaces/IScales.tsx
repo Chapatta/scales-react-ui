@@ -17,8 +17,3 @@ export default interface IScaleSource {
 //     Finger: number;
 //     Note: string;
 // }
-
-// Define the type for the entire JSON object
-export interface IScalesSourceData {
-    scales?: IScaleSource[];
-}

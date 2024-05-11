@@ -1,5 +1,3 @@
-{
-    "positions":
 [{"Scale":91,"Octaves":2,"FingerBlock":7,"NotePosition":1,"String":"A","Fret":2,"Direction":"Desc","Note":"B","Finger":1,"Position":"1st"},
 {"Scale":91,"Octaves":2,"FingerBlock":7,"NotePosition":2,"String":"A","Fret":5,"Direction":"Desc","Note":"D","Finger":3,"Position":"1st"},
 {"Scale":91,"Octaves":2,"FingerBlock":8,"NotePosition":1,"String":"E","Fret":1,"Direction":"Desc","Note":"F","Finger":1,"Position":"1st"},
@@ -928,4 +926,3 @@
 {"Scale":91,"Octaves":2,"FingerBlock":6,"NotePosition":1,"String":"D","Fret":0,"Direction":"Desc","Note":"D","Finger":0,"Position":"1st"},
 {"Scale":91,"Octaves":2,"FingerBlock":6,"NotePosition":2,"String":"D","Fret":3,"Direction":"Desc","Note":"F","Finger":2,"Position":"1st"},
 {"Scale":91,"Octaves":2,"FingerBlock":6,"NotePosition":3,"String":"D","Fret":5,"Direction":"Desc","Note":"G","Finger":3,"Position":"1st"}]
-}
