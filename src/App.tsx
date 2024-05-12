@@ -9,33 +9,36 @@ import Label from './Components/UI/Label'
 import ViolinNeck from './Components/UI/ViolinNeck'
 import * as DAL from './DataLayer/Test/TestCalls'
 import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
-import IScaleSource from './DataLayer/Interfaces/IScales'
+import * as IScaleSource from './DataLayer/Interfaces/IScales'
 import StringDirection from './Components/StringDirection'
-// import * as useApi from '../../APITool'; 
-// import config from '../../Config';
 // import IScaleType from '../../DataLayer/Interfaces/IScaleTypes';
-
+import * as useApi from './Services/API/APITool'; 
+import config from './Config';
 
 function App() {
 
-    const [scaleDropdownText, setScaleDropdownText] = useState('');
+  const [scaleDropdownText, setScaleDropdownText] = useState('');
 
-    // const [scalesTypeResponse, setScalesTypeResponse] = useState<useApi.ApiResult<IScaleType>>(useApi.default<IScaleType>(config.apiUrl + '/ScaleTypes'));
+  // const [scalesTypeResponse, setScalesTypeResponse] = useState<useApi.ApiResult<IScaleType>>(useApi.default<IScaleType>(config.apiUrl + '/ScaleTypes'));
 
-    const [dropDownScales, setDropdownScales] = useState<IScaleSource[]>([]);
-    
-    const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
-    const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
+  //const [dropDownScales, setDropdownScales] = useState<IScaleSource[]>([]);
+  const [scalesFilter, setDropdownScales] = useState<IScaleSource.IScaleFilter>({
+    Type: IScaleSource.ScaleFilterType.ScaleType,
+    Value: ''
+  });
 
-    const [scaleKeySignature, setScaleKeySignature] = useState('');
-    const [scaleNotes, setScaleNotes] = useState('');
+  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
+  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
 
-    const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const [scaleKeySignature, setScaleKeySignature] = useState('');
+  const [scaleNotes, setScaleNotes] = useState('');
+
+  const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value;
     const scaleID = parseInt(selectedOption);
     console.log(`scaleID ${scaleID}`);
 
-    const currentScale : IScaleSource = DAL.GetScale(scaleID);
+    const currentScale : IScaleSource.default = DAL.GetScale(scaleID);
 
     // Find the selected option element and extract its text
     const selectedOptionText = event.target.selectedOptions[0].text;
@@ -68,8 +71,11 @@ function App() {
         <div>Key:</div>
         <div className="VertSpacer"></div>
         <div><KeysDropDown onSelect={(selectedValue) => {
-            console.log('Selected value:', selectedValue), 
-            setDropdownScales(DAL.GetKeyScales(selectedValue))
+                console.log('Selected value:', selectedValue);
+                setDropdownScales({
+                  Type: IScaleSource.ScaleFilterType.Key,
+                  Value: selectedValue
+                })
               }}>
 
              </KeysDropDown>
@@ -79,8 +85,11 @@ function App() {
         <div>Scale Type:</div>
         <div className="VertSpacer"></div>
         <div><ScaleTypesDropDown onSelect={(selectedValue) => {
-            console.log('Selected value:', selectedValue), 
-            setDropdownScales(DAL.GetScaleTypeScales(parseInt(selectedValue,10)))
+                console.log('Selected value:', selectedValue);
+                setDropdownScales({
+                  Type: IScaleSource.ScaleFilterType.ScaleType,
+                  Value: selectedValue
+                })
               }}>
             </ScaleTypesDropDown>
         </div>
@@ -90,11 +99,11 @@ function App() {
       <div className='tableRow'>
         <div>Scales:</div>
         <div className="VertSpacer"></div>
-        <div><ScalesDropDown scales = {dropDownScales} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
+        <div><ScalesDropDown scalesFilter={scalesFilter} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
       </div>
-      <Label  id="ScaleName-label" caption="Scale Name:" text={scaleDropdownText}/>
-      <Label  id="KeySignature-label" caption="Key Signature:" text={scaleKeySignature}/>
-      <Label  id="Notes-label" caption="Notes:" text={scaleNotes}/>
+      <Label id="ScaleName-label" caption="Scale Name:" text={scaleDropdownText}/>
+      <Label id="KeySignature-label" caption="Key Signature:" text={scaleKeySignature}/>
+      <Label id="Notes-label" caption="Notes:" text={scaleNotes}/>
     </div>
   </div>
   <table>

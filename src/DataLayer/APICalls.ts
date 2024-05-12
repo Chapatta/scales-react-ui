@@ -1,5 +1,5 @@
 // import React from 'react';
-import * as useApi from '../APITool'; 
+import * as useApi from '../Services/API/APITool'; 
 import IScale from './Interfaces/IScales';
 import IScaleType from './Interfaces/IScalesType';
 import scalesJSON from './Scales.json';

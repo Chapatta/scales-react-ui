@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import IScaleSource from '../../DataLayer/Interfaces/IScales';
+import * as IScaleSource from '../../DataLayer/Interfaces/IScales';
+import * as useApi from '../../Services/API/APITool'; 
+import config from '../../Config'; 
 
 enum ScaleType {
     Major = 1,
@@ -11,29 +13,57 @@ enum ScaleType {
     Diminished7th = 7
   }
 
-interface Scale { ID: number; Scale: number; ScaleType: number; Octaves: number; StartingNote: string; Name: string; Notes: string; KeyNotes: string; }
+//interface Scale { ID: number; Scale: number; ScaleType: number; Octaves: number; StartingNote: string; Name: string; Notes: string; KeyNotes: string; }
 interface DropdownProps {
-  scales: IScaleSource[];
+  //scales: IScaleSource[];
+  scalesFilter : IScaleSource.IScaleFilter
   // onSelect: (value: string) => void;
   onSelect:(event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-/*
-Using React.FC provides type safety and helps with auto-completion and documentation in TypeScript-based React projects. It's also a convention used by many developers when defining functional components in React with TypeScript.
-*/
-const Dropdown = ({ scales ,onSelect}: DropdownProps) => {
+const Dropdown = ({ scalesFilter ,onSelect}: DropdownProps) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
 
+  let URL : string = config.apiUrl + '/Scales/' ; 
+  if (scalesFilter.Value == '' )
+  {
+    URL = URL + 'ScaleType/-1';
+  }
+  else if (scalesFilter.Type == IScaleSource.ScaleFilterType.ScaleType){
+    URL = URL + 'ScaleType/' + scalesFilter.Value;
+  }
+  else{
+    URL = URL + 'Key/' + scalesFilter.Value;
+  }
+
+  const response : useApi.ApiResult<IScaleSource.default> = useApi.default<IScaleSource.default>(URL);
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
     onSelect(e);
   };
 
+  // if (scalesResponse === undefined)
+  // {
+  //   return (
+  //     <select id="ScaleType-dropdown" value={selectedOption} onChange={handleOptionChange}>
+  //       <option value="">Select an option</option>
+  //     </select>
+  //   );
+  // }
+
+  if (response.loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (response.error) {
+    return <div>Error: {response.error}</div>;
+  }    
+
   return (
-    <select id="ScaleType-dropdown" value={selectedOption} onChange={handleOptionChange}>
+    <select id="Scale-dropdown" value={selectedOption} onChange={handleOptionChange}>
       <option value="">Select an option</option>
-      {scales.map((scale,index) => (
+      {response.data.map((scale,index) => (
         <option key={index} value={scale.Id}>
           {GetScaleName(scale)}
         </option>
@@ -42,7 +72,7 @@ const Dropdown = ({ scales ,onSelect}: DropdownProps) => {
   );
 };
 
-function GetScaleName(Scale: Scale)
+function GetScaleName(Scale: IScaleSource.default)
 {
     let scaleName;
     switch (Scale.ScaleType)

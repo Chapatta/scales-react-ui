@@ -10,10 +10,12 @@ export default interface IScaleSource {
     KeyNotes: string;
 }
 
-// export default interface IScale {
-//     String: number;
-//     Fret: number;
-//     Position: string;
-//     Finger: number;
-//     Note: string;
-// }
+export interface IScaleFilter {
+    Type: ScaleFilterType;
+    Value: string;
+}
+
+export enum ScaleFilterType {
+    ScaleType = 1,
+    Key = 2
+}
