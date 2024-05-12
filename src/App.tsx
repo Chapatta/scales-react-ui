@@ -11,9 +11,16 @@ import * as DAL from './DataLayer/Test/TestCalls'
 import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
 import IScaleSource from './DataLayer/Interfaces/IScales'
 import StringDirection from './Components/StringDirection'
+// import * as useApi from '../../APITool'; 
+// import config from '../../Config';
+// import IScaleType from '../../DataLayer/Interfaces/IScaleTypes';
+
 
 function App() {
+
     const [scaleDropdownText, setScaleDropdownText] = useState('');
+
+    // const [scalesTypeResponse, setScalesTypeResponse] = useState<useApi.ApiResult<IScaleType>>(useApi.default<IScaleType>(config.apiUrl + '/ScaleTypes'));
 
     const [dropDownScales, setDropdownScales] = useState<IScaleSource[]>([]);
     
@@ -32,6 +39,8 @@ function App() {
 
     // Find the selected option element and extract its text
     const selectedOptionText = event.target.selectedOptions[0].text;
+    //setScalesTypeResponse(scalesTypeResponse);
+
     setScaleDropdownText(selectedOptionText);
     setScaleKeySignature(currentScale.KeyNotes);
     setScaleNotes(currentScale.Notes);
