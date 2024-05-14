@@ -9,14 +9,14 @@ interface DropdownProps {
 
 //const Label = ({ id,caption,text}: LabelProps) => (
 
-const Dropdown = ({ onSelect }: DropdownProps) => {
+const Dropdown = (props: DropdownProps) => {
   const response : useApi.ApiResult<IKey> = useApi.default<IKey>(config.apiUrl + '/Keys');
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
-    onSelect(selectedValue);
+    props.onSelect(selectedValue);
   };
 
   return (

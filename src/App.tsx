@@ -7,17 +7,20 @@ import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
 import ScalesDropDown from './Components/UI/ScalesDropDown'
 import Label from './Components/UI/Label'
 import ViolinNeck from './Components/UI/ViolinNeck'
-import * as DAL from './DataLayer/Test/TestCalls'
-import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
+// import * as DAL from './DataLayer/Test/TestCalls'
+// import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
 import * as IScaleSource from './DataLayer/Interfaces/IScales'
 import StringDirection from './Components/StringDirection'
 // import IScaleType from '../../DataLayer/Interfaces/IScaleTypes';
-import * as useApi from './Services/API/APITool'; 
-import config from './Config';
+// import * as useApi from './Services/API/APITool'; 
+// import config from './Config';
+import ScaleDetails from './Components/UI/ScaleDetails'
 
 function App() {
 
-  const [scaleDropdownText, setScaleDropdownText] = useState('');
+  //const [scaleDropdownText, setScaleDropdownText] = useState('');
+  const [currentScaleID, setScaleID] = useState(0);
+  const [currentScale, setScale] = useState<IScaleSource.default>(IScaleSource.emptyScale());
 
   // const [scalesTypeResponse, setScalesTypeResponse] = useState<useApi.ApiResult<IScaleType>>(useApi.default<IScaleType>(config.apiUrl + '/ScaleTypes'));
 
@@ -27,39 +30,14 @@ function App() {
     Value: ''
   });
 
-  const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
-  const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
+  // const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
+  // const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
 
-  const [scaleKeySignature, setScaleKeySignature] = useState('');
-  const [scaleNotes, setScaleNotes] = useState('');
+  // const [scaleKeySignature, setScaleKeySignature] = useState('');
+  // const [scaleNotes, setScaleNotes] = useState('');
 
-  const handleScaleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOption = event.target.value;
-    const scaleID = parseInt(selectedOption);
-    console.log(`scaleID ${scaleID}`);
-
-    const currentScale : IScaleSource.default = DAL.GetScale(scaleID);
-
-    // Find the selected option element and extract its text
-    const selectedOptionText = event.target.selectedOptions[0].text;
-    //setScalesTypeResponse(scalesTypeResponse);
-
-    setScaleDropdownText(selectedOptionText);
-    setScaleKeySignature(currentScale.KeyNotes);
-    setScaleNotes(currentScale.Notes);
-
-    const fingerPositions = DAL.GetFingerPositions(scaleID,currentScale.Octaves);
-
-    const fingerPositionsAsc = fingerPositions.filter(fingerPos => fingerPos.Direction = StringDirection.Asc);
-    const fingerPositionsDesc = fingerPositions.filter(fingerPos => fingerPos.Direction = StringDirection.Desc)
-
-    const violinDataAsc : IFingerPos.default[][] = IFingerPos.getScale(fingerPositionsAsc);
-    const violinDataDesc : IFingerPos.default[][]= IFingerPos.getScale(fingerPositionsDesc);
-
-    // displayViolinData(initialViolinData);
-
-    setViolinDataAsc(violinDataAsc)
-    setViolinDataDesc(violinDataDesc)
+  const handleScaleChange = (scale : IScaleSource.default) => {
+    setScale(scale);
   };
 
   return (
@@ -94,16 +72,20 @@ function App() {
             </ScaleTypesDropDown>
         </div>
       </div>
+      <ScaleDetails scaleID={currentScaleID} callBack={handleScaleChange} ></ScaleDetails>
     </div>
     <div className="stackVertical">
       <div className='tableRow'>
         <div>Scales:</div>
         <div className="VertSpacer"></div>
-        <div><ScalesDropDown scalesFilter={scalesFilter} onSelect={handleScaleDropdownChange}></ScalesDropDown></div>
+        <div><ScalesDropDown scalesFilter={scalesFilter} onSelect={(selectedValue) => {
+                console.log('Selected value:', selectedValue);
+                setScaleID(parseInt(selectedValue));
+              }}></ScalesDropDown></div>
       </div>
-      <Label id="ScaleName-label" caption="Scale Name:" text={scaleDropdownText}/>
-      <Label id="KeySignature-label" caption="Key Signature:" text={scaleKeySignature}/>
-      <Label id="Notes-label" caption="Notes:" text={scaleNotes}/>
+      <Label id="ScaleName-label" caption="Scale Name:" text={currentScale.Name}/>
+      <Label id="KeySignature-label" caption="Key Signature:" text={currentScale?.KeyNotes}/>
+      <Label id="Notes-label" caption="Notes:" text={currentScale?.Notes}/>
     </div>
   </div>
   <table>
@@ -117,10 +99,10 @@ function App() {
     <StringCaptions/>
     <div id="ViolinNecks">
       <FretBar/>
-      <ViolinNeck violinData={violinDataAsc} />
+      <ViolinNeck scale={currentScale} direction={StringDirection.Asc} />
       <div id ="ViolinSpacer"></div>
       <FretBar/>
-      <ViolinNeck violinData={violinDataDesc} />
+      <ViolinNeck scale ={currentScale} direction={StringDirection.Desc} />
     </div>
   </div>
   </>

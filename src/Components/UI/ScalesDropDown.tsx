@@ -17,30 +17,29 @@ enum ScaleType {
 interface DropdownProps {
   //scales: IScaleSource[];
   scalesFilter : IScaleSource.IScaleFilter
-  // onSelect: (value: string) => void;
-  onSelect:(event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onSelect: (value: string) => void;
 }
 
-const Dropdown = ({ scalesFilter ,onSelect}: DropdownProps) => {
+const Dropdown = (props: DropdownProps) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
 
   let URL : string = config.apiUrl + '/Scales/' ; 
-  if (scalesFilter.Value == '' )
+  if (props.scalesFilter.Value == '' )
   {
     URL = URL + 'ScaleType/-1';
   }
-  else if (scalesFilter.Type == IScaleSource.ScaleFilterType.ScaleType){
-    URL = URL + 'ScaleType/' + scalesFilter.Value;
+  else if (props.scalesFilter.Type == IScaleSource.ScaleFilterType.ScaleType){
+    URL = URL + 'ScaleType/' + props.scalesFilter.Value;
   }
   else{
-    URL = URL + 'Key/' + scalesFilter.Value;
+    URL = URL + 'Key/' + props.scalesFilter.Value;
   }
 
   const response : useApi.ApiResult<IScaleSource.default> = useApi.default<IScaleSource.default>(URL);
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
-    onSelect(e);
+    props.onSelect(selectedValue);
   };
 
   // if (scalesResponse === undefined)

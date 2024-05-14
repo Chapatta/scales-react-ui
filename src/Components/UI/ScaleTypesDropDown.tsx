@@ -10,7 +10,7 @@ interface DropdownProps {
   onSelect: (value: string) => void;
 }
 
-const Dropdown = ({ onSelect}: DropdownProps) => {
+const Dropdown = (props: DropdownProps) => {
   // const scaleTypes = DAL.GetScaleTypes();
   const [selectedOption, setSelectedOption] = useState<string>('');
   // const response : useApi.ApiResult<IScaleType> = useApi.default<IScaleType>(config.apiUrl + '/ScaleTypes');
@@ -25,10 +25,8 @@ const Dropdown = ({ onSelect}: DropdownProps) => {
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
-    onSelect(selectedValue);
+    props.onSelect(selectedValue);
   };
-
-  const client = new useApi.HTTPClient(config.apiUrl);
 
   // Make a GET request to fetch a list of users
   //Leave this useful
@@ -38,6 +36,7 @@ const Dropdown = ({ onSelect}: DropdownProps) => {
 
   useEffect(() => {
     // Fetch posts when component mounts
+    const client = new useApi.HTTPClient(config.apiUrl);
     const fetchScaleTypes = async () => {
       try {
         const fetchedScaleTypes = await client.get<IScaleType[]>('ScaleTypes');
@@ -53,7 +52,7 @@ const Dropdown = ({ onSelect}: DropdownProps) => {
     return () => {
       // Cleanup logic (if any)
     };
-  }, [client]); // Empty dependency array ensures the effect runs only once on mount
+  }, []); // Empty dependency array ensures the effect runs only once on mount
 
   return (
     <select id="ScaleType-dropdown" value={selectedOption} onChange={handleOptionChange}>

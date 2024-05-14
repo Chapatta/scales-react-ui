@@ -10,6 +10,24 @@ export default interface IScaleSource {
     KeyNotes: string;
 }
 
+export const emptyScale = () : IScaleSource =>
+{
+    const scale : IScaleSource = 
+    {
+        Id: 0,
+        Scale: 0,
+        ScaleType: 0,
+        Octaves: 0,
+        StartingNote: '',
+        Name: '',
+        Notes: '',
+        KeyNotes: ''
+    };
+
+    return scale;
+}
+
+
 export interface IScaleFilter {
     Type: ScaleFilterType;
     Value: string;

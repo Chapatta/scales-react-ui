@@ -4,11 +4,11 @@ interface LabelProps {
     text: string
 }
 
-const Label = ({ id,caption,text}: LabelProps) => (
+const Label = (props: LabelProps) => (
   <div className='tableRow'>
-    <div>{caption}</div>
+    <div>{props.caption}</div>
     <div className="VertSpacer"></div>
-    <div id={id}>{text}</div>
+    <div id={props.id}>{props.text}</div>
   </div>
 );
 
