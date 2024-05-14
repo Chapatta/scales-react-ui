@@ -20,7 +20,7 @@ export class HTTPClient {
       }
     }
   }
-  
+
 // Example usage
 // const baseUrl = 'https://jsonplaceholder.typicode.com'; // Example API base URL
 // const client = new HTTPClient(baseUrl);

@@ -36,6 +36,8 @@ const Dropdown = (props: DropdownProps) => {
     URLParameters = 'Key/' + props.scalesFilter.Value;
   }
 
+  URLParameters = URLParameters.replace(/#/g, encodeURIComponent("#"));
+
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
