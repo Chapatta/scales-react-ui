@@ -20,7 +20,7 @@ const ViolinNeck = (props: ViolinNeckProps) => {
     const client = new useApi.HTTPClient(config.apiUrl);
     const fetchScaleTypes = async () => {
       try {
-        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>('FingerPositions?scaleID=' + props.scale.Id + '&octaves=' + props.scale.Octaves);
+        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>('FingerPositions?scaleID=' + props.scale.Id  + '&octaves=' + props.scale.Octaves  + '&direction=' + props.direction); 
         setFingerPositions(fetchedFingerPositions);
       } catch (error) {
         console.error('Error fetching posts:', error);
@@ -33,9 +33,9 @@ const ViolinNeck = (props: ViolinNeckProps) => {
     return () => {
       // Cleanup logic (if any)
     };
-  }, [props.scale.Id, props.scale.Octaves]); // Empty dependency array ensures the effect runs only once on mount
+  }, [props.scale.Id, props.scale.Octaves,props.direction]); // Empty dependency array ensures the effect runs only once on mount
 
-  const violinData : IFingerPos.default[][] = IFingerPos.getScale(fingerPositions.filter(fingerPos => fingerPos.Direction = props.direction));
+  const violinData : IFingerPos.default[][] = IFingerPos.getScale(fingerPositions);
 
   // displayViolinData(initialViolinData);
 

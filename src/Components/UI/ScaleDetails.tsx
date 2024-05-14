@@ -35,9 +35,8 @@ const ScaleDetails = ( props: DropdownProps) => {
     };
   }, [props]); // Empty dependency array ensures the effect runs only once on mount
 
-  //if you don't put anything into the div react is smart enough to realise that it doesn't need to refresh
   return (
-    <div>{props.scaleID}</div>
+    <div></div>
   );
 
 };
