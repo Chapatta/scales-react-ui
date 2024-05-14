@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import * as IScaleSource from '../../DataLayer/Interfaces/IScales';
-import * as useApi from '../../Services/API/APITool'; 
+import * as useApi from '../../Services/API/APIPromise'; 
 import config from '../../Config'; 
 
 enum ScaleType {
@@ -23,46 +23,51 @@ interface DropdownProps {
 const Dropdown = (props: DropdownProps) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
 
-  let URL : string = config.apiUrl + '/Scales/' ; 
+  const URL : string = config.apiUrl + '/Scales' ; 
+  let URLParameters : string = '';
   if (props.scalesFilter.Value == '' )
   {
-    URL = URL + 'ScaleType/-1';
+    URLParameters = 'ScaleType/-1';
   }
   else if (props.scalesFilter.Type == IScaleSource.ScaleFilterType.ScaleType){
-    URL = URL + 'ScaleType/' + props.scalesFilter.Value;
+    URLParameters = 'ScaleType/' + props.scalesFilter.Value;
   }
   else{
-    URL = URL + 'Key/' + props.scalesFilter.Value;
+    URLParameters = 'Key/' + props.scalesFilter.Value;
   }
 
-  const response : useApi.ApiResult<IScaleSource.default> = useApi.default<IScaleSource.default>(URL);
   const handleOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     setSelectedOption(selectedValue);
     props.onSelect(selectedValue);
   };
 
-  // if (scalesResponse === undefined)
-  // {
-  //   return (
-  //     <select id="ScaleType-dropdown" value={selectedOption} onChange={handleOptionChange}>
-  //       <option value="">Select an option</option>
-  //     </select>
-  //   );
-  // }
+  const [scales, setScales] = useState<IScaleSource.default[]>([]);
 
-  if (response.loading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    // Fetch posts when component mounts
+    const client = new useApi.HTTPClient(URL);
+    const fetchScales = async () => {
+      try {
+        const fetchedScales = await client.get<IScaleSource.default[]>(URLParameters);
+        setScales(fetchedScales);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    };
 
-  if (response.error) {
-    return <div>Error: {response.error}</div>;
-  }    
+    fetchScales();
+
+    // Cleanup function (optional)
+    return () => {
+      // Cleanup logic (if any)
+    };
+  }, [URL, URLParameters]); // Empty dependency array ensures the effect runs only once on mount
 
   return (
     <select id="Scale-dropdown" value={selectedOption} onChange={handleOptionChange}>
       <option value="">Select an option</option>
-      {response.data.map((scale,index) => (
+      {scales.map((scale,index) => (
         <option key={index} value={scale.Id}>
           {GetScaleName(scale)}
         </option>

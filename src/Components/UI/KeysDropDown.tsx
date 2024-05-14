@@ -23,7 +23,7 @@ const Dropdown = (props: DropdownProps) => {
   useEffect(() => {
     // Fetch posts when component mounts
     const client = new useApi.HTTPClient(config.apiUrl);
-    const fetchScaleTypes = async () => {
+    const fetchKeys = async () => {
       try {
         const fetchedKeys = await client.get<IKey[]>('Keys');
         setKeys(fetchedKeys);
@@ -32,7 +32,7 @@ const Dropdown = (props: DropdownProps) => {
       }
     };
 
-    fetchScaleTypes();
+    fetchKeys();
 
     // Cleanup function (optional)
     return () => {
