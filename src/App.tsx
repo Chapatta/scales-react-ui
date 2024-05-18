@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import KeysDropDown from './Components/UI/KeysDropDown'
 import GradesDropDown from './Components/UI/GradesDropDown'
+import ScaleSelector from './Components/UI/ScalesSelector'
 import FretBar from './Components/UI/FretBar'
 import StringCaptions from './Components/UI/StringCaptions'
 import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
@@ -39,6 +40,16 @@ function App() {
 
   const handleScaleChange = (scale : IScaleSource.default) => {
     setScale(scale);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -83,7 +94,6 @@ function App() {
                   Value: selectedValue
                 })
               }}>
-
              </GradesDropDown>
         </div>
       </div>
@@ -106,8 +116,12 @@ function App() {
   <table>
       <tr>
           <td>Lock Violin<input type="checkbox" id="LockViolin"/></td>
-          <td><button id="Export-button">Export</button></td>
-          <td><button id="CopyAsc-button">Copy Ascending</button></td>
+          <td><button id="Save-button">Save</button></td>
+          <td><button id="Load-button" onClick={openModal}>Load Scale</button></td>
+          <ScaleSelector isOpen={isModalOpen} onClose={closeModal}>
+            <h2>Modal Content</h2>
+            <p>This is a simple modal dialog.</p>
+          </ScaleSelector>
       </tr>
   </table>
   <div id="Violin">

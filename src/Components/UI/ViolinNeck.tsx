@@ -20,7 +20,7 @@ const ViolinNeck = (props: ViolinNeckProps) => {
     const client = new useApi.HTTPClient(config.apiUrl);
     const fetchScaleTypes = async () => {
       try {
-        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>('FingerPositions?scaleID=' + props.scale.Id  + '&octaves=' + props.scale.Octaves  + '&direction=' + props.direction); 
+        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>('FingerPositions?scaleID=' + props.scale.Scale  + '&octaves=' + props.scale.Octaves  + '&direction=' + props.direction); 
         setFingerPositions(fetchedFingerPositions);
       } catch (error) {
         console.error('Error fetching posts:', error);
