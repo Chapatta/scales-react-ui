@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import KeysDropDown from './Components/UI/KeysDropDown'
+import GradesDropDown from './Components/UI/GradesDropDown'
 import FretBar from './Components/UI/FretBar'
 import StringCaptions from './Components/UI/StringCaptions'
 import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
@@ -70,6 +71,20 @@ function App() {
                 })
               }}>
             </ScaleTypesDropDown>
+        </div>
+      </div>
+      <div className='tableRow'>
+        <div>Grade:</div>
+        <div className="VertSpacer"></div>
+        <div><GradesDropDown onSelect={(selectedValue) => {
+                console.log('Selected value:', selectedValue);
+                setDropdownScales({
+                  Type: IScaleSource.ScaleFilterType.Grades,
+                  Value: selectedValue
+                })
+              }}>
+
+             </GradesDropDown>
         </div>
       </div>
       <ScaleDetails scaleID={currentScaleID} callBack={handleScaleChange} ></ScaleDetails>

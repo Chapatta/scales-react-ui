@@ -32,8 +32,11 @@ const Dropdown = (props: DropdownProps) => {
   else if (props.scalesFilter.Type == IScaleSource.ScaleFilterType.ScaleType){
     URLParameters = 'ScaleType/' + props.scalesFilter.Value;
   }
-  else{
+  else if (props.scalesFilter.Type == IScaleSource.ScaleFilterType.Key){
     URLParameters = 'Key/' + props.scalesFilter.Value;
+  }
+  else{
+    URLParameters = 'Grade/' + props.scalesFilter.Value;
   }
 
   URLParameters = URLParameters.replace(/#/g, encodeURIComponent("#"));

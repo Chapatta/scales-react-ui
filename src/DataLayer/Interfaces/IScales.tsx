@@ -35,5 +35,6 @@ export interface IScaleFilter {
 
 export enum ScaleFilterType {
     ScaleType = 1,
-    Key = 2
+    Key = 2,
+    Grades = 3
 }
