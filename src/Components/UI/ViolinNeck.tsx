@@ -14,6 +14,28 @@ interface ViolinNeckProps {
 const ViolinNeck = (props: ViolinNeckProps) => {
 
   const [fingerPositions, setFingerPositions] = useState<IFingerPos.IFingerPositionSource[]>([]);
+  const [editingCell, setEditingCell] = useState({ row: -1, col: -1 });
+
+  const handleCellClick = (row : number, col: number, cellType : string) => {
+    setEditingCell({ row, col });
+    console.log('row ',row,'col ', col , 'cellType',cellType)
+  };
+
+  const handleCellChange = (event, row, col) => {
+    const updatedGrid = [...gridData];
+    updatedGrid[row][col] = event.target.value;
+    setGridData(updatedGrid);
+  };
+
+  const handleCellBlur = () => {
+    setEditingCell({ row: -1, col: -1 });
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleCellBlur();
+    }
+  };
 
   useEffect(() => {
     // Fetch posts when component mounts
@@ -33,7 +55,7 @@ const ViolinNeck = (props: ViolinNeckProps) => {
     return () => {
       // Cleanup logic (if any)
     };
-  }, [props.scale.Id, props.scale.Octaves,props.direction]); // Empty dependency array ensures the effect runs only once on mount
+  }, [props]); // Empty dependency array ensures the effect runs only once on mount
 
   const violinData : IFingerPos.default[][] = IFingerPos.getScale(fingerPositions);
 
@@ -43,15 +65,26 @@ const ViolinNeck = (props: ViolinNeckProps) => {
     violinData.map((row, rowIndex) => (
         <div key={rowIndex} className="ViolinNeck">
           {row.map((cell, colIndex) => (
-          <div key={colIndex}>
-            <div className="position finger">
+          <div key={colIndex} >
+            <div className="position finger" onClick={() => handleCellClick(rowIndex, colIndex, "Finger")}>
               {/* onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)} */}
-              {cell.Finger ? cell.Finger : "\u00a0"} 
+              {editingCell.row === rowIndex && editingCell.col === colIndex ? (
+                  <input
+                    type="text"
+                    value={cell.Finger ? cell.Finger : "\u00a0"}
+                    onChange={(event) => handleCellChange(event, rowIndex, colIndex)}
+                    onBlur={handleCellBlur}
+                    onKeyDown={handleKeyDown}
+                    autoFocus
+                  />
+                ) : (
+                  <div>{cell.Finger ? cell.Finger : "\u00a0"}</div>
+                )}
             </div>
-            <div className="position">
+            <div className="position"  onClick={() => handleCellClick(rowIndex, colIndex,"Position")}>
               {cell.Position ? cell.Position : "\u00a0"} 
             </div>
-            <div className="position note">
+            <div className="position note"  onClick={() => handleCellClick(rowIndex, colIndex)}>
               {cell.Note ? cell.Note : "\u00a0"} 
             </div>
             </div>
