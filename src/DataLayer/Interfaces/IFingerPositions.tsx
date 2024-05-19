@@ -23,8 +23,12 @@ export default interface IFingerPosition {
 const rows = 4;
 const columns = 18;
 
+export function getFingerPositionID(fingerPosition : IFingerPosition) : number {
+    return fingerPosition.String * columns + fingerPosition.Fret;
+}
+
 const updateCell = (fingerPositions : IFingerPosition[][], fingerPosition: IFingerPositionSource) => {
-    const rowIndex = getStringIndex(fingerPosition);
+    const rowIndex = getStringIndex(fingerPosition.String);
     const colIndex = fingerPosition.Fret;
     fingerPositions.map((row, rIdx) => {
         if (rIdx === rowIndex) {  
@@ -53,9 +57,15 @@ const displayViolinData = (fingerPositions : IFingerPosition[][]) => {
     });
 }
 
-const getStringIndex = (fingerPosition: IFingerPositionSource) => {
+export function cellValue(item: IFingerPosition,cellType : string) : string
+{
+    const value: string = (cellType == "Position" ? item.Position : item.Finger?.toString()) ?? "";
+    return value;
+}
+
+function getStringIndex(stringName : string) : number {
     let stringIndex = 0; 
-    switch (fingerPosition.String) {
+    switch (stringName) {
         case "E":
         stringIndex = 0;
         //console.log("Start of the work week!");

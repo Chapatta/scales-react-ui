@@ -7,15 +7,16 @@ interface ModalProps {
   }
 
 const ScalesSelector = (props: ModalProps) => {
+  const {isOpen, onClose ,children } = props;
   return (
     <>
-      {props.isOpen && (
+      {isOpen && (
         <div className="modal-overlay">
           <div className="modal">
-            <button className="modal-close-button" onClick={props.onClose}>
+            <button className="modal-close-button" onClick={onClose}>
               X
             </button>
-            <div className="modal-content">{props.children}</div>
+            <div className="modal-content">{children}</div>
           </div>
         </div>
       )}

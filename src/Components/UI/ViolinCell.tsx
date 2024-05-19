@@ -4,40 +4,30 @@
 //you can use React.memo or similar techniques to prevent unnecessary re-renders of components that haven't changed.
 import React, { memo } from 'react';
 
-interface GridItem {
-  id: number;
-  content: string;
-}
+import * as IFingerPos from '../../DataLayer/Interfaces/IFingerPositions'
 
 interface GridItemProps {
-  item: GridItem;
-  editMode: number | null;
-  editContent: string;
-  handleEditClick: (item: GridItem) => void;
-  handleSaveClick: (id: number) => void;
-  setEditContent: (content: string) => void;
+  key: number;
+  item: IFingerPos.default;
+  value: string;
+  onChange: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
+  cellType: string;
 }
 
 const ViolinCell = memo((props: GridItemProps) => {
-  const { item, editMode, editContent, handleEditClick, handleSaveClick, setEditContent } = props;
+  const { key, value, onChange} = props;
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(key, event);
+  };
 
   return (
-    <div className="grid-item">
-      {editMode === item.id ? (
-        <div>
-          <input
-            type="text"
-            value={editContent}
-            onChange={(e) => setEditContent(e.target.value)}
-          />
-          <button onClick={() => handleSaveClick(item.id)}>Save</button>
-        </div>
-      ) : (
-        <div>
-          <span>{item.content}</span>
-          <button onClick={() => handleEditClick(item)}>Edit</button>
-        </div>
-      )}
+    <div className="position ${cellType}">
+        <input className="position"
+        type="text"
+        value={value}
+        onChange={handleInputChange}
+        />
     </div>
   );
 });

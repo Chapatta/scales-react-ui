@@ -4,6 +4,7 @@ import * as IFingerPos from '../../DataLayer/Interfaces/IFingerPositions'
 import StringDirection from '../StringDirection'
 import * as useApi from '../../Services/API/APIPromise'; 
 import config from '../../Config';
+import ViolinCell from './ViolinCell';
 
 interface ViolinNeckProps {
   scale: IScaleSource.default;
@@ -12,38 +13,35 @@ interface ViolinNeckProps {
 }
 
 const ViolinNeck = (props: ViolinNeckProps) => {
+  const {scale,direction} = props;
 
-  const [fingerPositions, setFingerPositions] = useState<IFingerPos.IFingerPositionSource[]>([]);
-  const [editingCell, setEditingCell] = useState({ row: -1, col: -1 });
+  const [violinData, setViolinData] = useState<IFingerPos.default[][]>([]);
 
-  const handleCellClick = (row : number, col: number, cellType : string) => {
-    setEditingCell({ row, col });
-    console.log('row ',row,'col ', col , 'cellType',cellType)
+  const handleChangePosition = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    setViolinData(violinData.map((row) => 
+      row.map((cell) => 
+        IFingerPos.getFingerPositionID(cell) === index ? { ...cell, Position: event.target.value } : cell
+              )
+              )
+    );
   };
 
-  const handleCellChange = (event, row, col) => {
-    const updatedGrid = [...gridData];
-    updatedGrid[row][col] = event.target.value;
-    setGridData(updatedGrid);
+  const handleChangeFinger = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    setViolinData(violinData.map((row) => 
+      row.map((cell) => 
+        IFingerPos.getFingerPositionID(cell) === index ? { ...cell, Position: event.target.value } : cell
+              )
+              )
+    );
   };
-
-  const handleCellBlur = () => {
-    setEditingCell({ row: -1, col: -1 });
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      handleCellBlur();
-    }
-  };
-
   useEffect(() => {
     // Fetch posts when component mounts
+
     const client = new useApi.HTTPClient(config.apiUrl);
     const fetchScaleTypes = async () => {
       try {
-        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>('FingerPositions?scaleID=' + props.scale.Scale  + '&octaves=' + props.scale.Octaves  + '&direction=' + props.direction); 
-        setFingerPositions(fetchedFingerPositions);
+        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>('FingerPositions?scaleID=' + scale.Scale  + '&octaves=' + scale.Octaves  + '&direction=' + direction); 
+        setViolinData(IFingerPos.getScale(fetchedFingerPositions));
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -55,9 +53,8 @@ const ViolinNeck = (props: ViolinNeckProps) => {
     return () => {
       // Cleanup logic (if any)
     };
-  }, [props]); // Empty dependency array ensures the effect runs only once on mount
+  }, [direction, props, scale.Octaves, scale.Scale]); // Empty dependency array ensures the effect runs only once on mount
 
-  const violinData : IFingerPos.default[][] = IFingerPos.getScale(fingerPositions);
 
   // displayViolinData(initialViolinData);
 
@@ -66,25 +63,27 @@ const ViolinNeck = (props: ViolinNeckProps) => {
         <div key={rowIndex} className="ViolinNeck">
           {row.map((cell, colIndex) => (
           <div key={colIndex} >
-            <div className="position finger" onClick={() => handleCellClick(rowIndex, colIndex, "Finger")}>
-              {/* onChange={(e) => updateCell(rowIndex, colIndex, e.target.value)} */}
-              {editingCell.row === rowIndex && editingCell.col === colIndex ? (
-                  <input
-                    type="text"
-                    value={cell.Finger ? cell.Finger : "\u00a0"}
-                    onChange={(event) => handleCellChange(event, rowIndex, colIndex)}
-                    onBlur={handleCellBlur}
-                    onKeyDown={handleKeyDown}
-                    autoFocus
-                  />
-                ) : (
-                  <div>{cell.Finger ? cell.Finger : "\u00a0"}</div>
-                )}
-            </div>
-            <div className="position"  onClick={() => handleCellClick(rowIndex, colIndex,"Position")}>
+            {/* <div className="position finger" onClick={() => handleCellClick(rowIndex, colIndex, "Finger")}> */}
+              {/* {editingCell.row === rowIndex && editingCell.col === colIndex ? ( */}
+              <ViolinCell
+                key={IFingerPos.getFingerPositionID(cell)}
+                item={cell}
+                value={cell.Finger ? cell.Finger.toString() : ""}
+                onChange={handleChangeFinger}
+                cellType = "Finger"
+              />
+            {/* </div> */}
+            <ViolinCell
+                key={IFingerPos.getFingerPositionID(cell)}
+                item={cell}
+                value={cell.Position ? cell.Position : ""}
+                onChange={handleChangePosition}
+                cellType = "Position"
+              />
+            {/* <div className="position"  onClick={() => handleCellClick(rowIndex, colIndex,"Position")}>
               {cell.Position ? cell.Position : "\u00a0"} 
-            </div>
-            <div className="position note"  onClick={() => handleCellClick(rowIndex, colIndex)}>
+            </div> */}
+            <div className="position note">
               {cell.Note ? cell.Note : "\u00a0"} 
             </div>
             </div>

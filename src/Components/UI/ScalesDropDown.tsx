@@ -22,21 +22,22 @@ interface DropdownProps {
 
 const Dropdown = (props: DropdownProps) => {
   const [selectedOption, setSelectedOption] = useState<string>('');
+  const { scalesFilter} = props;
 
   const URL : string = config.apiUrl + '/Scales' ; 
   let URLParameters : string = '';
-  if (props.scalesFilter.Value == '' )
+  if (scalesFilter.Value == '' )
   {
     URLParameters = 'ScaleType/-1';
   }
-  else if (props.scalesFilter.Type == IScaleSource.ScaleFilterType.ScaleType){
-    URLParameters = 'ScaleType/' + props.scalesFilter.Value;
+  else if (scalesFilter.Type == IScaleSource.ScaleFilterType.ScaleType){
+    URLParameters = 'ScaleType/' + scalesFilter.Value;
   }
-  else if (props.scalesFilter.Type == IScaleSource.ScaleFilterType.Key){
-    URLParameters = 'Key/' + props.scalesFilter.Value;
+  else if (scalesFilter.Type == IScaleSource.ScaleFilterType.Key){
+    URLParameters = 'Key/' + scalesFilter.Value;
   }
   else{
-    URLParameters = 'Grade/' + props.scalesFilter.Value;
+    URLParameters = 'Grade/' + scalesFilter.Value;
   }
 
   URLParameters = URLParameters.replace(/#/g, encodeURIComponent("#"));
