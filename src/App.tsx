@@ -20,27 +20,13 @@ import ScaleDetails from './Components/UI/ScaleDetails'
 
 function App() {
 
-  //const [scaleDropdownText, setScaleDropdownText] = useState('');
   const [currentABRSMScaleID, setScaleID] = useState(0);
   // const [currentScale, setScale] = useState<IScaleSource.default>(IScaleSource.emptyScale());
 
-  // const [scalesTypeResponse, setScalesTypeResponse] = useState<useApi.ApiResult<IScaleType>>(useApi.default<IScaleType>(config.apiUrl + '/ScaleTypes'));
-
-  //const [dropDownScales, setDropdownScales] = useState<IScaleSource[]>([]);
   const [scalesFilter, setDropdownScales] = useState<IScaleSource.IScaleFilter>({
     Type: IScaleSource.ScaleFilterType.ScaleType,
     Value: ''
   });
-
-  // const [violinDataAsc, setViolinDataAsc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
-  // const [violinDataDesc, setViolinDataDesc] = useState<IFingerPos.default[][]>(IFingerPos.emptyViolinNeck());
-
-  // const [scaleKeySignature, setScaleKeySignature] = useState('');
-  // const [scaleNotes, setScaleNotes] = useState('');
-
-  const handleScaleChange = (scale : IScaleSource.default) => {
-    setScale(scale);
-  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -54,7 +40,6 @@ function App() {
 
   return (
   <>
-  {/* <h1>Violin Scales</h1> */}
   <div className="scaleSelector">
     <div className="stackVertical">
       <div className='tableRow'>
@@ -67,7 +52,6 @@ function App() {
                   Value: selectedValue
                 })
               }}>
-
              </KeysDropDown>
         </div>
       </div>
@@ -97,7 +81,6 @@ function App() {
              </GradesDropDown>
         </div>
       </div>
-      {/* <ScaleDetails scaleID={currentScaleID} callBack={handleScaleChange} ></ScaleDetails> */}
     </div>
     <div className="stackVertical">
       <div className='tableRow'>

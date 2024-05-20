@@ -18,13 +18,13 @@ const ViolinNeck = (props: ViolinNeckProps) => {
   const [violinData, setViolinData] = useState<IFingerPos.default[][]>([]);
 
   const handleChangePosition = (fingerPosition: IFingerPos.default, event: React.ChangeEvent<HTMLInputElement>) => {
-    // violinData[fingerPosition.String][fingerPosition.Fret].Position = event.target.value;
-    // setViolinData(violinData);
+    violinData[fingerPosition.String][fingerPosition.Fret].Position = event.target.value;
+    setViolinData(violinData);
   };
 
   const handleChangeFinger = (fingerPosition: IFingerPos.default, event: React.ChangeEvent<HTMLInputElement>) => {
-    // violinData[fingerPosition.String][fingerPosition.Fret].Finger = parseInt(event.target.value,10);
-    // setViolinData(violinData);
+    violinData[fingerPosition.String][fingerPosition.Fret].Finger = parseInt(event.target.value,10);
+    setViolinData(violinData);
   };
 
   useEffect(() => {
@@ -61,14 +61,14 @@ const ViolinNeck = (props: ViolinNeckProps) => {
               {/* {editingCell.row === rowIndex && editingCell.col === colIndex ? ( */}
               <ViolinCell
                 fingerPosition={cell}
-                value={cell.Finger ? cell.Finger.toString() : ""}
+                initialValue={cell.Finger ? cell.Finger.toString() : ""}
                 onChange={handleChangeFinger}
                 cellType = "Finger"
               />
             {/* </div> */}
             <ViolinCell
                 fingerPosition={cell}
-                value={cell.Position ? cell.Position : ""}
+                initialValue={cell.Position ? cell.Position : ""}
                 onChange={handleChangePosition}
                 cellType = "Position"
               />
