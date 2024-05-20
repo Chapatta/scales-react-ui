@@ -7,7 +7,7 @@ import config from '../../Config';
 import ViolinCell from './ViolinCell';
 
 interface ViolinNeckProps {
-  scale: IScaleSource.default;
+  scale: number;
   direction : StringDirection;
 //   onSelect: (value: string) => void;
 }
@@ -17,31 +17,25 @@ const ViolinNeck = (props: ViolinNeckProps) => {
 
   const [violinData, setViolinData] = useState<IFingerPos.default[][]>([]);
 
-  const handleChangePosition = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    setViolinData(violinData.map((row) => 
-      row.map((cell) => 
-        IFingerPos.getFingerPositionID(cell) === index ? { ...cell, Position: event.target.value } : cell
-              )
-              )
-    );
+  const handleChangePosition = (fingerPosition: IFingerPos.default, event: React.ChangeEvent<HTMLInputElement>) => {
+    // violinData[fingerPosition.String][fingerPosition.Fret].Position = event.target.value;
+    // setViolinData(violinData);
   };
 
-  const handleChangeFinger = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    setViolinData(violinData.map((row) => 
-      row.map((cell) => 
-        IFingerPos.getFingerPositionID(cell) === index ? { ...cell, Position: event.target.value } : cell
-              )
-              )
-    );
+  const handleChangeFinger = (fingerPosition: IFingerPos.default, event: React.ChangeEvent<HTMLInputElement>) => {
+    // violinData[fingerPosition.String][fingerPosition.Fret].Finger = parseInt(event.target.value,10);
+    // setViolinData(violinData);
   };
+
   useEffect(() => {
     // Fetch posts when component mounts
 
     const client = new useApi.HTTPClient(config.apiUrl);
     const fetchScaleTypes = async () => {
       try {
-        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>('FingerPositions?scaleID=' + scale.Scale  + '&octaves=' + scale.Octaves  + '&direction=' + direction); 
-        setViolinData(IFingerPos.getScale(fetchedFingerPositions));
+        const fetchedFingerPositions = await client.get<IFingerPos.IFingerPositionSource[]>(`FingerPositions?scaleID=${scale}&direction=${direction}`); 
+        const violinData1 = IFingerPos.getScale(fetchedFingerPositions)
+        setViolinData(violinData1);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -53,7 +47,7 @@ const ViolinNeck = (props: ViolinNeckProps) => {
     return () => {
       // Cleanup logic (if any)
     };
-  }, [direction, props, scale.Octaves, scale.Scale]); // Empty dependency array ensures the effect runs only once on mount
+  },[scale,direction] ) // Empty dependency array ensures the effect runs only once on mount
 
 
   // displayViolinData(initialViolinData);
@@ -66,16 +60,14 @@ const ViolinNeck = (props: ViolinNeckProps) => {
             {/* <div className="position finger" onClick={() => handleCellClick(rowIndex, colIndex, "Finger")}> */}
               {/* {editingCell.row === rowIndex && editingCell.col === colIndex ? ( */}
               <ViolinCell
-                key={IFingerPos.getFingerPositionID(cell)}
-                item={cell}
+                fingerPosition={cell}
                 value={cell.Finger ? cell.Finger.toString() : ""}
                 onChange={handleChangeFinger}
                 cellType = "Finger"
               />
             {/* </div> */}
             <ViolinCell
-                key={IFingerPos.getFingerPositionID(cell)}
-                item={cell}
+                fingerPosition={cell}
                 value={cell.Position ? cell.Position : ""}
                 onChange={handleChangePosition}
                 cellType = "Position"

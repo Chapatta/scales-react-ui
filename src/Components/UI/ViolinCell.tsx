@@ -7,18 +7,17 @@ import React, { memo } from 'react';
 import * as IFingerPos from '../../DataLayer/Interfaces/IFingerPositions'
 
 interface GridItemProps {
-  key: number;
-  item: IFingerPos.default;
+  fingerPosition: IFingerPos.default;
   value: string;
-  onChange: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (fingerPosition: IFingerPos.default, event: React.ChangeEvent<HTMLInputElement>) => void;
   cellType: string;
 }
 
 const ViolinCell = memo((props: GridItemProps) => {
-  const { key, value, onChange} = props;
+  const { fingerPosition, value, onChange} = props;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(key, event);
+    onChange(fingerPosition,event);
   };
 
   return (

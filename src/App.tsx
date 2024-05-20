@@ -21,8 +21,8 @@ import ScaleDetails from './Components/UI/ScaleDetails'
 function App() {
 
   //const [scaleDropdownText, setScaleDropdownText] = useState('');
-  const [currentScaleID, setScaleID] = useState(0);
-  const [currentScale, setScale] = useState<IScaleSource.default>(IScaleSource.emptyScale());
+  const [currentABRSMScaleID, setScaleID] = useState(0);
+  // const [currentScale, setScale] = useState<IScaleSource.default>(IScaleSource.emptyScale());
 
   // const [scalesTypeResponse, setScalesTypeResponse] = useState<useApi.ApiResult<IScaleType>>(useApi.default<IScaleType>(config.apiUrl + '/ScaleTypes'));
 
@@ -97,7 +97,7 @@ function App() {
              </GradesDropDown>
         </div>
       </div>
-      <ScaleDetails scaleID={currentScaleID} callBack={handleScaleChange} ></ScaleDetails>
+      {/* <ScaleDetails scaleID={currentScaleID} callBack={handleScaleChange} ></ScaleDetails> */}
     </div>
     <div className="stackVertical">
       <div className='tableRow'>
@@ -108,9 +108,9 @@ function App() {
                 setScaleID(parseInt(selectedValue));
               }}></ScalesDropDown></div>
       </div>
-      <Label id="ScaleName-label" caption="Scale Name:" text={currentScale.Name}/>
+      {/* <Label id="ScaleName-label" caption="Scale Name:" text={currentScale.Name}/>
       <Label id="KeySignature-label" caption="Key Signature:" text={currentScale?.KeyNotes}/>
-      <Label id="Notes-label" caption="Notes:" text={currentScale?.Notes}/>
+      <Label id="Notes-label" caption="Notes:" text={currentScale?.Notes}/> */}
     </div>
   </div>
   <table>
@@ -128,10 +128,10 @@ function App() {
     <StringCaptions/>
     <div id="ViolinNecks">
       <FretBar/>
-      <ViolinNeck scale={currentScale} direction={StringDirection.Asc} />
+      <ViolinNeck scale={currentABRSMScaleID} direction={StringDirection.Asc} />
       <div id ="ViolinSpacer"></div>
       <FretBar/>
-      <ViolinNeck scale ={currentScale} direction={StringDirection.Desc} />
+      <ViolinNeck scale ={currentABRSMScaleID} direction={StringDirection.Desc} />
     </div>
   </div>
   </>

@@ -20,7 +20,7 @@ const ScaleDetails = ( props: DropdownProps) => {
     const client = new useApi.HTTPClient(config.apiUrl);
     const fetchScaleTypes = async () => {
       try {
-        const fetchedScale = await client.get<IScale>('Scales?scaleID=' + props.scaleID);
+        const fetchedScale = await client.get<IScale>(`Scales?scaleID=${props.scaleID}`);
         props.callBack(fetchedScale);
       } catch (error) {
         console.error('Error fetching posts:', error);

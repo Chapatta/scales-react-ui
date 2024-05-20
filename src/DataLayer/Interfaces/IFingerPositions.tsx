@@ -23,29 +23,12 @@ export default interface IFingerPosition {
 const rows = 4;
 const columns = 18;
 
-export function getFingerPositionID(fingerPosition : IFingerPosition) : number {
-    return fingerPosition.String * columns + fingerPosition.Fret;
-}
-
 const updateCell = (fingerPositions : IFingerPosition[][], fingerPosition: IFingerPositionSource) => {
     const rowIndex = getStringIndex(fingerPosition.String);
     const colIndex = fingerPosition.Fret;
-    fingerPositions.map((row, rIdx) => {
-        if (rIdx === rowIndex) {  
-          return row.map((cell, cIdx) => {
-                if (cIdx === colIndex) {
-                  cell.Position = fingerPosition.Position;
-                  cell.Finger = fingerPosition.Finger;
-                  cell.Note = fingerPosition.Note;
-                  return cell;
-                } else {
-                  return cell;
-                } 
-              });
-        } else {
-          return row;
-        }
-    });
+    fingerPositions[rowIndex][colIndex].Position = fingerPosition.Position;
+    fingerPositions[rowIndex][colIndex].Finger = fingerPosition.Finger;
+    fingerPositions[rowIndex][colIndex].Note = fingerPosition.Note;
 }
 
 const displayViolinData = (fingerPositions : IFingerPosition[][]) => {
