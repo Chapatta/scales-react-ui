@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import * as IScaleSource from '../../DataLayer/Interfaces/IScales';
 import * as IFingerPos from '../../DataLayer/Interfaces/IFingerPositions'
 import StringDirection from '../StringDirection'
@@ -20,11 +20,11 @@ const ViolinNeck = (props: ViolinNeckProps) => {
 
   const [editingCell, setEditingCell] = useState({ row: 0, col: 0, type: "" });
 
-  const handleCellClick = (fingerPosition : IFingerPos.default, cellType : string) => {
+  const handleCellClick = useCallback((fingerPosition : IFingerPos.default, cellType : string) => {
     setEditingCell({ row: fingerPosition.String, col: fingerPosition.Fret, type: cellType });
-  };
+  },[]);
 
-  const handleSave = (fingerPosition : IFingerPos.default, cellType : string,newValue : string) => {
+  const handleSave = useCallback((fingerPosition : IFingerPos.default, cellType : string,newValue : string) => {
     const newData  = violinData.map(row => [...row]);
     if (cellType == "Position")
     {
@@ -37,7 +37,7 @@ const ViolinNeck = (props: ViolinNeckProps) => {
 
     setViolinData(newData);
     setEditingCell({ row: 0, col: 0,type: ""});
-  };
+  },[violinData]);
 
   useEffect(() => {
     // Fetch posts when component mounts
@@ -76,7 +76,7 @@ const ViolinNeck = (props: ViolinNeckProps) => {
                       onSave={(newValue) => handleSave(cell, "Finger",newValue)}
                     />
                   ) : (
-                    <div className="position note">
+                    <div className="position Finger">
                       {cell.Finger ? cell.Finger : "\u00a0"} 
                     </div>
                   )}

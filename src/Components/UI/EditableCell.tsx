@@ -5,7 +5,7 @@ interface EditableCellProps {
   onSave: (newValue: string) => void;
 }
 
-const EditableCell = ({ value, onSave }: EditableCellProps) => {
+const EditableCell = React.memo(({ value, onSave }: EditableCellProps) => {
   const [tempValue, setTempValue] = useState<string>(value);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +27,7 @@ const EditableCell = ({ value, onSave }: EditableCellProps) => {
   }, [value]);
 
   return (
-    <input
+    <input className='position'
       type="text"
       value={tempValue}
       onChange={handleInputChange}
@@ -36,6 +36,6 @@ const EditableCell = ({ value, onSave }: EditableCellProps) => {
       autoFocus
     />
   );
-};
+});
 
 export default EditableCell;
