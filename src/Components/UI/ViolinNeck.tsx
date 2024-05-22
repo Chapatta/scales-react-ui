@@ -5,6 +5,7 @@ import StringDirection from '../StringDirection'
 import * as useApi from '../../Services/API/APIPromise'; 
 import config from '../../Config';
 import ViolinCell from './ViolinCell';
+import EditableCell from './EditableCell';
 
 interface ViolinNeckProps {
   scale: number;
@@ -17,14 +18,25 @@ const ViolinNeck = (props: ViolinNeckProps) => {
 
   const [violinData, setViolinData] = useState<IFingerPos.default[][]>([]);
 
-  const handleChangePosition = (fingerPosition: IFingerPos.default, event: React.ChangeEvent<HTMLInputElement>) => {
-    violinData[fingerPosition.String][fingerPosition.Fret].Position = event.target.value;
-    setViolinData(violinData);
+  const [editingCell, setEditingCell] = useState({ row: 0, col: 0, type: "" });
+
+  const handleCellClick = (fingerPosition : IFingerPos.default, cellType : string) => {
+    setEditingCell({ row: fingerPosition.String, col: fingerPosition.Fret, type: cellType });
   };
 
-  const handleChangeFinger = (fingerPosition: IFingerPos.default, event: React.ChangeEvent<HTMLInputElement>) => {
-    violinData[fingerPosition.String][fingerPosition.Fret].Finger = parseInt(event.target.value,10);
-    setViolinData(violinData);
+  const handleSave = (fingerPosition : IFingerPos.default, cellType : string,newValue : string) => {
+    const newData  = violinData.map(row => [...row]);
+    if (cellType == "Position")
+    {
+      newData[fingerPosition.String][fingerPosition.Fret].Position = newValue;
+    }
+    else
+    {
+      newData[fingerPosition.String][fingerPosition.Fret].Finger = parseInt(newValue,10);
+    }
+
+    setViolinData(newData);
+    setEditingCell({ row: 0, col: 0,type: ""});
   };
 
   useEffect(() => {
@@ -57,21 +69,30 @@ const ViolinNeck = (props: ViolinNeckProps) => {
         <div key={rowIndex} className="ViolinNeck">
           {row.map((cell, colIndex) => (
           <div key={colIndex} >
-            {/* <div className="position finger" onClick={() => handleCellClick(rowIndex, colIndex, "Finger")}> */}
-              {/* {editingCell.row === rowIndex && editingCell.col === colIndex ? ( */}
-              <ViolinCell
-                fingerPosition={cell}
-                initialValue={cell.Finger ? cell.Finger.toString() : ""}
-                onChange={handleChangeFinger}
-                cellType = "Finger"
-              />
-            {/* </div> */}
-            <ViolinCell
-                fingerPosition={cell}
-                initialValue={cell.Position ? cell.Position : ""}
-                onChange={handleChangePosition}
-                cellType = "Position"
-              />
+            <div className="position finger" onClick={() => handleCellClick(cell, "Finger")}>
+              {editingCell.row === rowIndex && editingCell.col === colIndex  && editingCell.type === "Finger" ? (
+                    <EditableCell
+                      value={cell.Finger ? cell.Finger.toString() : "\u00a0"}
+                      onSave={(newValue) => handleSave(cell, "Finger",newValue)}
+                    />
+                  ) : (
+                    <div className="position note">
+                      {cell.Finger ? cell.Finger : "\u00a0"} 
+                    </div>
+                  )}
+            </div>
+            <div className="position" onClick={() => handleCellClick(cell, "Position")}>
+              {editingCell.row === rowIndex && editingCell.col === colIndex  && editingCell.type === "Position" ? (
+                    <EditableCell
+                      value={cell.Position ? cell.Position : "\u00a0"}
+                      onSave={(newValue) => handleSave(cell, "Position",newValue)}
+                    />
+                  ) : (
+                    <div className="position note">
+                      {cell.Position ? cell.Position : "\u00a0"} 
+                    </div>
+                  )}
+            </div>
             {/* <div className="position"  onClick={() => handleCellClick(rowIndex, colIndex,"Position")}>
               {cell.Position ? cell.Position : "\u00a0"} 
             </div> */}
