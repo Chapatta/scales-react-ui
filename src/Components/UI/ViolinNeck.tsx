@@ -6,11 +6,18 @@ import * as useApi from '../../Services/API/APIPromise';
 import config from '../../Config';
 import ViolinCell from './ViolinCell';
 import EditableCell from './EditableCell';
+import ViolinString from '../../Components/ViolinString'
 
 interface ViolinNeckProps {
   scale: number;
   direction : StringDirection;
 //   onSelect: (value: string) => void;
+}
+
+function getNote(string: number, fret: number): string {
+  const notes: readonly string[] = ['G','G#', 'A','A#', 'B','C','C#', 'D','D#', 'E', 'F','F#'];
+  const noteIndex: number = ((ViolinString.G - string)* 7 + fret) % 12; 
+  return notes[noteIndex];
 }
 
 const ViolinNeck = (props: ViolinNeckProps) => {
@@ -21,8 +28,11 @@ const ViolinNeck = (props: ViolinNeckProps) => {
   const [editingCell, setEditingCell] = useState({ row: 0, col: 0, type: "" });
 
   const handleCellClick = useCallback((fingerPosition : IFingerPos.default, cellType : string) => {
+    const newData  = violinData.map(row => [...row]);
+    newData[fingerPosition.String][fingerPosition.Fret].Note = getNote(fingerPosition.String,fingerPosition.Fret);
+    setViolinData(newData);
     setEditingCell({ row: fingerPosition.String, col: fingerPosition.Fret, type: cellType });
-  },[]);
+  },[violinData]);
 
   const handleSave = useCallback((fingerPosition : IFingerPos.default, cellType : string,newValue : string) => {
     const newData  = violinData.map(row => [...row]);

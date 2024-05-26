@@ -1,4 +1,5 @@
 // Define the type for a single finger position
+import ViolinString from '../../Components/ViolinString'
 export interface IFingerPositionSource {
     Scale: number;
     Octaves: number;
@@ -50,20 +51,16 @@ function getStringIndex(stringName : string) : number {
     let stringIndex = 0; 
     switch (stringName) {
         case "E":
-        stringIndex = 0;
-        //console.log("Start of the work week!");
+        stringIndex = ViolinString.E;
         break;
         case "A":
-        stringIndex = 1;
-        //console.log("Start of the work week!");
+        stringIndex = ViolinString.A;
         break;
         case "D":
-        stringIndex = 2;
-        //console.log("Start of the work week!");
+        stringIndex = ViolinString.D;
         break;
         case "G":
-        stringIndex = 3;
-        //console.log("Start of the work week!");
+        stringIndex = ViolinString.G;
         break;
         default:
         console.log("Invalid String.");
