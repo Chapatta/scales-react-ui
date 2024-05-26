@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import './App.css'
 import KeysDropDown from './Components/UI/KeysDropDown'
 import GradesDropDown from './Components/UI/GradesDropDown'
@@ -8,7 +8,7 @@ import StringCaptions from './Components/UI/StringCaptions'
 import ScaleTypesDropDown from './Components/UI/ScaleTypesDropDown'
 import ScalesDropDown from './Components/UI/ScalesDropDown'
 import Label from './Components/UI/Label'
-import ViolinNeck from './Components/UI/ViolinNeck'
+import ViolinNeck, {ViolinNeckHandle,ViolinNeckProps} from './Components/UI/ViolinNeck'
 // import * as DAL from './DataLayer/Test/TestCalls'
 // import * as IFingerPos from './DataLayer/Interfaces/IFingerPositions'
 import * as IScaleSource from './DataLayer/Interfaces/IScales'
@@ -36,6 +36,15 @@ function App() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const AscViolinNeckRef = useRef<ViolinNeckHandle>();
+  const DescViolinNeckRef = useRef();
+
+  const handleSaveButtonClick = () => {
+    if (AscViolinNeckRef.current) {
+      AscViolinNeckRef.current.saveViolinNeck();
+    }
   };
 
   return (
@@ -99,7 +108,7 @@ function App() {
   <table>
       <tr>
           <td>Lock Violin<input type="checkbox" id="LockViolin"/></td>
-          <td><button id="Save-button">Save</button></td>
+          <td><button id="Save-button" onClick={handleSaveButtonClick}>Save</button></td>
           <td><button id="Load-button" onClick={openModal}>Load Scale</button></td>
           <ScaleSelector isOpen={isModalOpen} onClose={closeModal}>
             <h2>Modal Content</h2>
@@ -111,7 +120,7 @@ function App() {
     <StringCaptions/>
     <div id="ViolinNecks">
       <FretBar/>
-      <ViolinNeck scale={currentABRSMScaleID} direction={StringDirection.Asc} />
+      <ViolinNeck scale={currentABRSMScaleID} direction={StringDirection.Asc} ref={AscViolinNeckRef}/>
       <div id ="ViolinSpacer"></div>
       <FretBar/>
       <ViolinNeck scale ={currentABRSMScaleID} direction={StringDirection.Desc} />

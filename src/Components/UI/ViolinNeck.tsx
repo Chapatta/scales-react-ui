@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback,forwardRef, useImperativeHandle} from 'react';
 import * as IScaleSource from '../../DataLayer/Interfaces/IScales';
 import * as IFingerPos from '../../DataLayer/Interfaces/IFingerPositions'
 import StringDirection from '../StringDirection'
@@ -8,10 +8,14 @@ import ViolinCell from './ViolinCell';
 import EditableCell from './EditableCell';
 import ViolinString from '../../Components/ViolinString'
 
-interface ViolinNeckProps {
+export interface ViolinNeckProps {
   scale: number;
   direction : StringDirection;
 //   onSelect: (value: string) => void;
+}
+
+export interface ViolinNeckHandle {
+  saveViolinNeck: () => void;
 }
 
 function getNote(string: number, fret: number): string {
@@ -20,11 +24,18 @@ function getNote(string: number, fret: number): string {
   return notes[noteIndex];
 }
 
-const ViolinNeck = (props: ViolinNeckProps) => {
-  const {scale,direction} = props;
+const ViolinNeck = forwardRef<ViolinNeckHandle,ViolinNeckProps>((props,ref) => {
+  useImperativeHandle(ref, () => ({
+    saveViolinNeck
+  }));
+
+  const {scale,direction} = props
+
+  const saveViolinNeck = () => {
+    alert('Child function called!');
+  };
 
   const [violinData, setViolinData] = useState<IFingerPos.default[][]>([]);
-
   const [editingCell, setEditingCell] = useState({ row: 0, col: 0, type: "" });
 
   const handleCellClick = useCallback((fingerPosition : IFingerPos.default, cellType : string) => {
@@ -115,6 +126,6 @@ const ViolinNeck = (props: ViolinNeckProps) => {
       )
     )
   )
-}
+});
 
 export default ViolinNeck;
